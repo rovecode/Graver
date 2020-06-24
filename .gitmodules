@@ -1,1 +1,7 @@
 
+[submodule "libs/GidraPHP"]
+	path = libs/GidraPHP
+	url = https://github.com/rovecode/GidraPHP
+[submodule "libs/Medoo"]
+	path = libs/Medoo
+	url = https://github.com/catfan/Medoo
