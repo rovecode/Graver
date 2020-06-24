@@ -6,3 +6,7 @@
 	path = libs/medoo
 	url = https://github.com/catfan/Medoo
 	branch = master
+[submodule "libs"]
+	path = libs
+	url = https://github.com/catfan/Medoo
+	branch = master
