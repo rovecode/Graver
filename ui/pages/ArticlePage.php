@@ -55,23 +55,6 @@ class ArticlePage extends Component
 
   function __construct() {
     $this->Think();
-    // $this->Title = "Test page";
-
-    // $this->Text = "Risk has historically been an internal monitoring process that hasn’t been subject to the same strict controls as groups such as finance – whose externally-disclosed reports undergo years of auditing. However, this is beginning to change as risk teams face up to new requirements to report directly to external regulators.
-
-    // AxiomSL - FDSF Stress TestingThe change is apparent in the Firm Data Submission Framework (FDSF) stress tests, which risk teams at banks across the UK must carry out. The teams involved face the mammoth task of aggregating and consolidating granular data from across the enterprise, ensuring it is in the correct format before running the necessary stress test calculations and reporting the results to the Prudential Regulation Authority (PRA).
-    
-    // Some of the pitfalls to avoid have been illustrated by the implementation of the US Federal Reserve’s Comprehensive Capital Analysis and Review (CCAR), on which FDSF is based. Firms that took tactical approaches to CCAR, by allowing individual teams to manually adjust and enrich data, have experienced problems with data quality and consistency. Others have learned the hard way that they must carefully coordinate their operational processes, as many of the different teams required to execute CCAR calculations are inter-dependent.
-    
-    // If banks in the UK are to avoid these issues and get FDSF right from the start, they need a single platform that can easily aggregate and consolidate data from different lines of business. They should consider a platform that not only includes reporting capabilities, but also delivers stress tests and maintains the scenario logic used for these. Before they report to the PRA, risk teams must be able to reconcile the results of the tests with data submitted as part of other regulatory requirements, including Common Reporting filings.
-    
-    // A risk team’s responsibility does not end when the stress test results have been filed. They must also be able to audit the entire process and, therefore, need to use a platform with full traceability and drilldown capabilities. Finally, as regulatory requirements are prone to change, risk must consider the flexibility of the technology they use for FDSF to ensure they remain compliant.
-    
-    // By taking these steps, risk teams can step up to the challenges facing them with confidence.";
-
-    // $this->Text = str_replace("\n", "<br/>", $this->Text);
-
-    // $this->Picture = "https://paranoidandroid.co/assets/wallpapers/2018/submerged_desktop_thumb.jpg";
   }
 
   /// Build
