@@ -1,0 +1,8 @@
+[submodule "libs/tree-php"]
+	path = libs/tree-php
+	url = https://github.com/rovecode/GidraPHP
+	branch = v3.1.0
+[submodule "libs/medoo"]
+	path = libs/medoo
+	url = https://github.com/catfan/Medoo
+	branch = master
