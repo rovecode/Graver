@@ -24,6 +24,12 @@ class ProjectsController extends Controller
     parent::__construct(DatabaseCollection::GetGraverDB());
   }
 
+  function ExistsByID($id) : bool {
+    return $this->GetDB()->count("projects", [
+      'id' => $id
+    ]) > 0 ? true : false;
+  }
+
   function AddProject(string $name, string $url, string $key) : bool {
     if (!SessionController::GetInstance()->ExistsByKey($key))
       return false;

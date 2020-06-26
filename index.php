@@ -1,31 +1,5 @@
 <?php
 
-require_once(__DIR__ . "/libs/tree-php/Includes/All.php");
+require_once(__DIR__ . "/backend/include.php");
 
-
-function Bufdsfsf() {
-  return (new Document)
-  ->SetTitle("Test Page")
-  ->SetChild(
-    (new Row)
-    ->AddChild(
-      (new Text)
-      ->AddThemeParameter(FontSize, Px(100))
-      ->SetText("Hello World")
-    )
-    ->AddChild(
-      (new Text)
-      ->SetText("Hello World")
-    )
-    ->AddChild(
-      (new Text)
-      ->SetText("Hello World")
-    )
-    ->AddChild(
-      (new Text)
-      ->SetText("Hello World")
-    )
-  );
-}
-
-Node::Run(Bufdsfsf());
+Controller::RedirectTo("ui/pages/HomePage.php");

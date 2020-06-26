@@ -14,17 +14,27 @@ class ProjectPage extends Component
   private $ProjectID;
   private $IsFolderSelected;
   private $Splash;
-
+  private $Folders;
+  private $FolderID;
+  private $Folder;
+  private $Tasks;
+  private $SplashTaskList;
 
   function Think() {
     $this->ProjectID = $_GET["id"];
     $this->Splash = !isset($_GET["splash"]) ? true : ($_GET["splash"] == "true" ? true : false);
+    $this->SplashTaskList = !isset($_GET["splash_tasks"]) ? false : ($_GET["splash_tasks"] == "true" ? true : false);
     $this->ProjectsCount = ProjectsController::GetInstance()->Count($_COOKIE["session_key"]);
     $project = ProjectsController::GetInstance()->GetProject($_COOKIE["session_key"], $_GET["id"]);
     $this->Picture = $project["picture"];
     $this->Name = $project["title"];
-
-    $this->IsFolderSelected = isset($_GET["folder_id"]) ? true : false;
+    $this->FolderID = !isset($_GET["folder_id"]) ? -1 : $_GET["folder_id"];
+    $this->Folders = FolderController::GetInstance()->GetFolders($this->ProjectID);
+    $this->IsFolderSelected = $this->FolderID >= 0;
+    if ($this->IsFolderSelected) {
+      $this->Folder = FolderController::GetInstance()->GetFolder($this->FolderID);
+      $this->Tasks = TaskController::GetInstance()->GetTasks($this->Folder["id"]);
+    }
   }
 
   function __construct() {
@@ -48,7 +58,7 @@ class ProjectPage extends Component
     ->AddThemeParameter(MaxHeight, Px(39))
     ->AddThemeParameter(Padding, [0, Px(30)])
     ->AddThemeKey("graver_check_line")
-    ->AddThemeKey("on_show_x_large_translate")
+    ->AddThemeKey(!$this->SplashTaskList ? "on_show_x_large_translate" : "")
     ->AddThemeParameter(Height, Auto)
     ->AddChild(
       (new Link)
@@ -85,18 +95,18 @@ class ProjectPage extends Component
   function BuildRightFolder() {
     $column = new Column;
     $i=0;
-    for ($i=0; $i < 24; $i++) { 
+    foreach ($this->Tasks as $value) {
       $column->AddChild(
-        $this->BuildCheckLine(Icons::RadioButtonChecked, "Задача", "#")
+        $this->BuildCheckLine(Icons::RadioButtonChecked, $value["name"], "DeleteTask.php?task_id=".$value["id"]."&project_id=".$this->ProjectID."&folder_id=".$this->FolderID)
         ->AddThemeParameter(AnimationDelay, (0.025 * ($i + cos($i) * 2)) ."s")
       );
     }
     $column->AddChild(
-      $this->BuildCheckLine(Icons::Plus, "Добавить", "#")
+      $this->BuildCheckLine(Icons::Plus, "Добавить", "CreateTasksPage.php?project_id=".$this->ProjectID.($this->FolderID >= 0 ? "&folder_id=".$this->FolderID : ""))
       ->AddThemeParameter(AnimationDelay, 0.05 * $i ."s")
     );
     return (new Stack)
-    ->AddThemeKey($this->Splash == false ? "on_show_x_large_translate" : "")
+    ->AddThemeKey(!$this->SplashTaskList ? "on_show_x_large_translate" : "")
     ->AddChild(
       (new VerticalScrollView)
       ->AddThemeKey("graver_hide_scrollbar")
@@ -117,7 +127,7 @@ class ProjectPage extends Component
         (new Text)
         ->AddThemeParameter(PaddingBottom, Px(30))
         ->AddThemeParameter(FontSize, Px(22))
-        ->SetText("Папка 1")
+        ->SetText($this->Folder["name"])
       )
       ->AddChild(
         (new Separator)
@@ -169,18 +179,18 @@ class ProjectPage extends Component
       (new Space)
       ->SetSpace(Px(5))
     );
-    for ($i=0; $i < 12; $i++) { 
+    foreach ($this->Folders as $value) {
       $column->AddChild(
         (new ListItem)
-        ->SetLink("ProjectPage.php?splash=false&id=".$this->ProjectID."&folder_id=".$i)
-        ->SetTitle("Папка " . ($i + 1))
+        ->SetLink("ProjectPage.php?splash=false&id=".$this->ProjectID."&folder_id=".$value["id"])
+        ->SetTitle($value["name"])
       );
     }
     $column->AddChild(
       (new ListItem)
-      ->SetLink("#")
+      ->SetLink("CreateFolderPage.php?project_id=".$this->ProjectID."&folder_id=".$this->FolderID)
       ->SetIcon(Icons::Plus)
-      ->SetTitle("Добавить ")
+      ->SetTitle("Добавить")
     );
     return (new VerticalScrollView)
     ->AddThemeKey("graver_hide_scrollbar")
