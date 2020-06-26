@@ -27,10 +27,8 @@ class CreateProjectCard extends Component
     ->SetMainAlign(MainAxisAligns::Center)
     ->AddChild(
       (new Text)
-      ->AddThemeParameter(FontSize, Px(100))
-      ->AddThemeParameter(FontWeight, 100)
-      ->AddThemeParameter(Height, Px(135))
-      ->SetText("+")
+      ->AddThemeKey("material_icons")
+      ->SetText("add")
     );
   }
 
@@ -41,14 +39,14 @@ class CreateProjectCard extends Component
     ->SetLink($this->RedirectLink)
     ->SetChild(
       (new Container)
+      ->AddThemeKey("graver_add_project_button")
       ->AddThemeParameter(MinWidth, $this->Size)
       ->AddThemeParameter(MaxWidth, $this->Size)
       ->AddThemeParameter(Width, $this->Size)
       ->AddThemeParameter(MinHeight, $this->Size)
       ->AddThemeParameter(MaxHeight, $this->Size)
       ->AddThemeParameter(Height, $this->Size)
-      ->AddThemeKey("graver_create_project_card")
-      ->SetChild($this->BuildContent())
+      ->SetChild( $this->BuildContent())
     );
   }
 }

@@ -8,7 +8,6 @@ require_once(__DIR__ . "/../../backend/include.php");
 
 class HomePage extends Component
 {
-
   private $Projects;
 
   private $Articles;
@@ -101,7 +100,7 @@ class HomePage extends Component
               (new ProjectCard)
               ->SetTitle($value["title"])
               ->SetPictureLink(Url($value["picture"]))
-              ->SetRedirectLink("#id")
+              ->SetRedirectLink("ProjectPage.php?id=" . $value["id"])
               ->SetSize(Px(120))
             );
             ++$i;
@@ -202,7 +201,8 @@ class HomePage extends Component
           ->AddThemeParameter(Height, Auto)
           ->AddThemeParameter(JustifyContent, Center)
           ->SetSpacing(Px(20))
-          ->SetColumnTeample(Repeat("auto-fill", Minmax(Px(13), Px(135))));
+          ->SetColumnTeample(Repeat("auto-fill", Minmax(Px(13), Px(135))))
+          ->AddThemeParameter(PaddingBottom, Px(20));
           $i = 0;
           $anim_speed = 1;
           foreach ($this->Projects as $value) {
@@ -211,7 +211,7 @@ class HomePage extends Component
               (new ProjectCard)
               ->SetTitle($value["title"])
               ->SetPictureLink(Url($value["picture"]))
-              ->SetRedirectLink("#id")
+              ->SetRedirectLink("ProjectPage.php?id=" . $value["id"])
               ->Build()
               ->AddThemeKey("on_show_x_translate")
               ->AddThemeParameter(AnimationDelay, $anim_delta > 0 ? $anim_delta."s" : "0s")
@@ -282,6 +282,7 @@ class HomePage extends Component
     return (new Document)
     ->AddTheme(GetGraverTheme())
     ->AddThemes(GetAdaptiveThemes())
+    ->AddTheme(GetFontsTheme())
     ->AddThemeParameter(BackgroundColor, Hex("e6e8ea"))
     ->SetTitle("Главная, graver.com")
     ->SetChild(

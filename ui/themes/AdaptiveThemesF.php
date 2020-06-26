@@ -15,6 +15,37 @@ function GetAdaptiveThemes() : array {
         ->AddParameter(Height, Auto)
         ->AddParameter(MaxWidth, Px(600))
       ),
+    )
+    ->AddThemeBlock(
+      (new ThemeBlock)
+      ->SetKey("graver_project_left")
+      ->AddModifier(
+        (new StandartModifier)
+        ->AddParameter(Width, Px(300))
+        ->AddParameter(MaxWidth, Px(300))
+        ->AddParameter(MinWidth, Px(300))
+      ),
+    )
+    ->AddThemeBlock(
+      (new ThemeBlock)
+      ->SetKey("graver_project_right")
+      ->AddModifier(
+        (new StandartModifier)
+        ->AddParameter(Width, Pr(100))
+      ),
+    ),
+
+    (new Theme)
+    ->SetMaxWidth(Px(600))
+    ->AddThemeBlock(
+      (new ThemeBlock)
+      ->SetKey("graver_project")
+      ->AddModifier(
+        (new StandartModifier)
+        ->AddParameter(Width, Pr(100))
+        ->AddParameter(MinWidth, Pr(100))
+        ->AddParameter(MaxWidth, Pr(100))
+      )
     ),
 
     // MOBILE
@@ -33,7 +64,7 @@ function GetAdaptiveThemes() : array {
         (new StandartModifier)
         ->AddParameter(Height, Pr(100))
         ->AddParameter(MaxWidth, Pr(100))
-      )
+      ),
     ]),
     /// TABLET
     (new Theme)

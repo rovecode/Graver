@@ -75,7 +75,7 @@ class ArticlePage extends Component
         ->SetChild(
           (new Column)
           ->AddThemeKey("on_show_x_large_translate")
-          ->AddThemeParameter(Padding, [Px(195), Px(40), Px(40), Px(40)])
+          ->AddThemeParameter(Padding, [Px(230), Px(40), Px(40), Px(40)])
           ->AddThemeParameter(AnimationDelay, "0.4s")
           ->SetChilds($this->Text->GetChilds())
         )

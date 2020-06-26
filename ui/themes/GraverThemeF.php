@@ -7,6 +7,44 @@ function GetGraverTheme() : Theme {
   return (new Theme)
   ->AddThemeBlocks([
     (new ThemeBlock)
+    ->SetKey("graver_list_item")
+    ->AddModifiers([
+      (new StandartModifier)
+      ->AddParameter(FontSize, Px(14))
+      ->AddParameter(Padding, [Px(1), 0]),
+      (new HoverModifier)
+      ->AddParameter(FontSize, Px(16))
+      ->AddParameter(Padding, 0)
+      ->AddParameter(BackgroundColor, Hex("e3e8ec6b"))
+      ->AddParameter(BorderTop, [Px(1), Solid, Hex("f9f9f9db")])
+      ->AddParameter(BorderBottom, [Px(1), Solid, Hex("adadadcc")]),
+    ]),
+    (new ThemeBlock)
+    ->SetKey("graver_list_item:active > *")
+    ->AddModifier(
+      (new StandartModifier)
+      ->AddParameter(Transition, "all ease 0.2s")
+      ->AddParameter(Transform, Scale(0.98, 0.96))
+      ->AddParameter(Filter, Blur(Px(0.5)))
+    ),
+
+    (new ThemeBlock)
+    ->SetKey("graver_check_line")
+    ->AddModifiers([
+      (new HoverModifier)
+      ->AddParameter(BackgroundColor, Hex("3a3a3a12"))
+    ]),
+
+    (new ThemeBlock)
+    ->SetKey("graver_check_line_link")
+    ->AddModifiers([
+      (new StandartModifier)
+      ->AddParameter(Color, Gray),
+      (new HoverModifier)
+      ->AddParameter(Color, Hex("166edb"))
+    ]),
+
+    (new ThemeBlock)
     ->SetKey("graver_field")
     ->AddModifiers([
       (new StandartModifier)
@@ -35,38 +73,22 @@ function GetGraverTheme() : Theme {
         Hex("0872c9")
       ]),
     ]),
+    
+    (new ThemeBlock)
+    ->SetKey("graver_add_project_button > * > p")
+    ->AddModifier(
+      (new StandartModifier)
+      ->AddParameter(Color, Gray)
+      ->AddParameter(FontSize, Px(28))
+    ),
+    (new ThemeBlock)
+    ->SetKey("graver_add_project_button:hover > * > p")
+    ->AddModifier(
+      (new StandartModifier)
+      ->AddParameter(FontWeight, 300)
+      ->AddParameter(FontSize, Px(40))
+    ),
 
-    (new ThemeBlock)
-    ->SetKey("graver_create_project_card")
-    ->AddModifier(
-      (new StandartModifier)
-      ->AddParameter(Transition, "all ease 0.4s")
-      ->AddParameter(BorderRadius, Pr(50))
-      ->AddParameter(Border, [Px(1), Solid, Transparent])
-    )
-    ->AddModifier(
-      (new HoverModifier)
-      ->AddParameter(Border, [Px(1), Solid, Hex("adadad59")])
-      ->AddParameter(BackgroundColor, Hex("f1f1f199"))
-    )
-    ->AddModifier(
-      (new ActiveModifier)
-      ->AddParameter(Filter, Blur(Px(0.25)))
-      ->AddParameter(Transform, Scale(0.975, 0.99))
-    ),
-    (new ThemeBlock)
-    ->SetKey("graver_create_project_card > div > p")
-    ->AddModifier(
-      (new StandartModifier)
-      ->AddParameter(Transition, "all ease 0.2s")
-      ->AddParameter(Color, Hex("8080808f"))
-    ),
-    (new ThemeBlock)
-    ->SetKey("graver_create_project_card:hover > div > p")
-    ->AddModifier(
-      (new StandartModifier)
-      ->AddParameter(Color, Hex("166edb"))
-    ),
     (new ThemeBlock)
     ->SetKey("graver_project_card")
     ->AddModifier(

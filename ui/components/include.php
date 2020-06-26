@@ -7,3 +7,5 @@ require_once(__DIR__ . "/ArticleCard.php");
 require_once(__DIR__ . "/GraverComponent.php");
 require_once(__DIR__ . "/CreateProjectCard.php");
 require_once(__DIR__ . "/Dialog.php");
+require_once(__DIR__ . "/ProjectTile.php");
+require_once(__DIR__ . "/ListItem.php");

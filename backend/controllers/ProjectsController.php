@@ -43,6 +43,17 @@ class ProjectsController extends Controller
     return true;
   }
 
+  function Count(string $key) {
+    if (!SessionController::GetInstance()->ExistsByKey($key))
+      return null;
+
+    $id = SessionController::GetInstance()->GetProfileIDByKey($key);
+
+    return $this->GetDB()->count("projects", [
+      "profile_id" => $id
+    ]);
+  }
+
   function GetProjects(string $key) {
     if (!SessionController::GetInstance()->ExistsByKey($key))
       return array();
@@ -52,5 +63,17 @@ class ProjectsController extends Controller
     return $this->GetDB()->select("projects", "*", [
       "profile_id" => $id
     ]);
+  }
+
+  function GetProject(string $key, $id) {
+    if (!SessionController::GetInstance()->ExistsByKey($key))
+      return array();
+
+    $profileId = SessionController::GetInstance()->GetProfileIDByKey($key);
+
+    return $this->GetDB()->select("projects", "*", [
+      "profile_id" => $profileId,
+      "id" => $id
+    ])[0];
   }
 }
