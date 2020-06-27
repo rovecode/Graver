@@ -86,7 +86,7 @@ function GetGraverTheme() : Theme {
     ->AddModifier(
       (new StandartModifier)
       ->AddParameter(FontWeight, 300)
-      ->AddParameter(FontSize, Px(40))
+      ->AddParameter(Color, Hex("166edb"))
     ),
 
     (new ThemeBlock)
@@ -106,13 +106,13 @@ function GetGraverTheme() : Theme {
       ->AddParameter(Border, [Px(2), Solid, Hex("2294f5")])
       ->AddParameter(BorderTop, [Px(2), Solid, Hex("51adf0")])
       ->AddParameter(BorderBottom, [Px(2), Solid, Hex("0872c9")])
-      ->AddParameter(Transform, Scale(1.2, 1.2))
+      ->AddParameter(Transform, Scale(1.05, 1.05))
       ->AddParameter(Padding, Px(2))
     )
     ->AddModifier(
       (new ActiveModifier)
-      ->AddParameter(Filter, Blur(Px(0.25)))
-      ->AddParameter(Transform, Scale(1.15, 1.18))
+      ->AddParameter(Filter, Blur(Px(0.45)))
+      ->AddParameter(Transform, Scale(0.999, 0.999))
     ),
     (new ThemeBlock)
     ->SetKey("graver_project_card:hover > div > div")

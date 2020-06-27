@@ -82,7 +82,7 @@ class AuthTeample extends Component
       ->AddThemeKey("graver_page_background")
       ->SetChilds([
         (new Picture)
-        ->SetLink(Url("../../assets/auth_back_cr.jpg")) //https://www.muralswallpaper.com/app/uploads/Green-Tropical-Plant-Wallpaper-Mural-Room-820x532.jpg
+        ->SetLink(Url("https://www.muralswallpaper.com/app/uploads/Green-Tropical-Plant-Wallpaper-Mural-Room-820x532.jpg")) //
         ->SetRepeat(PictureRepeats::NoRepeat)
         ->SetSize(PictureSizes::Cover)
         /*->SetChild(

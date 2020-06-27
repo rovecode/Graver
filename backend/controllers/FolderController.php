@@ -29,8 +29,20 @@ class FolderController extends Controller
     ]) > 0 ? true : false;
   }
 
+  function DeleteFolder($id) {
+    return $this->GetDB()->delete("folders", [
+      "id" => $id
+    ]);
+  }
+
   function GetFolders($projectID) : array {
     return $this->GetDB()->select("folders", "*", [
+      "project_id" => $projectID
+    ]);
+  }
+
+  function GetFoldersID($projectID) : array {
+    return $this->GetDB()->select("folders", "id", [
       "project_id" => $projectID
     ]);
   }

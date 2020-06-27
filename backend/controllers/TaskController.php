@@ -30,9 +30,21 @@ class TaskController extends Controller
     return $tasks == false ? array() : $tasks;
   }
 
-  function DeleteTask($taskID) {
+  function GetTasksIDInFolder($folderID) : array {
+    return $this->GetDB()->select("task", "id", [
+      "folder_id" => $folderID
+    ]);
+  }
+
+  function DeleteTask($id) {
     return $this->GetDB()->delete("task", [
-      "id" => $taskID
+      "id" => $id
+    ]);
+  }
+
+  function GetTasksCountInFolder($folderID)  {
+    return $this->GetDB()->count("task", [
+      "folder_id" => $folderID
     ]);
   }
 

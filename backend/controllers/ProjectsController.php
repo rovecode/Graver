@@ -36,8 +36,8 @@ class ProjectsController extends Controller
 
     $id = SessionController::GetInstance()->GetProfileIdByKey($key);
 
-    if (strlen($name) > 12)
-      $name = mb_substr($name, 0, 10)."...";
+    if (strlen($name) > 18)
+      $name = mb_substr($name, 0, 15)."...";
 
     $this->GetDB()->insert("projects", [
       "profile_id" => $id,
@@ -68,6 +68,12 @@ class ProjectsController extends Controller
 
     return $this->GetDB()->select("projects", "*", [
       "profile_id" => $id
+    ]);
+  }
+
+  function DeleteProject($id) {
+    return $this->GetDB()->delete("projects", [
+      "id" => $id
     ]);
   }
 

@@ -40,9 +40,9 @@ class CreateProjectCard extends Component
     ->SetChild(
       (new Container)
       ->AddThemeKey("graver_add_project_button")
-      ->AddThemeParameter(MinWidth, $this->Size)
-      ->AddThemeParameter(MaxWidth, $this->Size)
-      ->AddThemeParameter(Width, $this->Size)
+      ->AddThemeParameter(MinWidth, Px($this->Size / 2))
+      ->AddThemeParameter(MaxWidth, Px($this->Size / 2))
+      ->AddThemeParameter(Width, Px($this->Size / 2))
       ->AddThemeParameter(MinHeight, $this->Size)
       ->AddThemeParameter(MaxHeight, $this->Size)
       ->AddThemeParameter(Height, $this->Size)

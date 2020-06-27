@@ -29,7 +29,7 @@ class CreateFolderPage extends Component
     if (empty($this->Name))
       return;
 
-    $nameMask = "/[^a-zA-Zа-яёА-ЯЁ ]/u";
+    $nameMask = "/[^a-zA-Zа-яёА-ЯЁ0-9 ]/u";
     if (preg_match($nameMask, $this->Name)) {
       $this->Message = "Неправильный формат полей";
       return;
