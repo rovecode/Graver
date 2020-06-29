@@ -48,6 +48,7 @@ class RegistratePage extends Component
   }
 
   function __construct() {
+    parent::__construct();
     if (isset($_GET["name"]))
       $this->Name = $_GET["name"];
     if (isset($_GET["last_name"]))
@@ -69,89 +70,89 @@ class RegistratePage extends Component
       $this->Message = $this->Think();
   }
 
-  function BuildForm() : Node {
+  function BuildForm() : Element {
     return (new Action)
-    ->SetChild(
-      (new Column)
-      ->AddChilds([
-        (new Text)
-        ->AddThemeParameter(FontSize, Px(22))
-        ->SetText("Присоеденитесь к Graver"),
-        (new Space),
-        (new Row)
-        ->SetCrossAlign(CrossAxisAligns::End)
-        ->AddThemeParameter(Height, Auto)
-        ->AddChilds([
-          (new Text)
-          ->SetText("У вас уже есть аккаунт?"),
-          (new Space)
-          ->SetOrientation(Space::Horizontal)
-          ->SetSpace(Px(5)),
+    ->Child(
+      Column::Create()
+      ->Children([
+        Text::Create()
+        ->ThemeParameter(FontSize, Px(22))
+        ->Text("Присоеденитесь к Graver"),
+        Space::Create(),
+        Row::Create()
+        ->CrossAlign(CrossAxisAligns::End)
+        ->ThemeParameter(Height, Auto)
+        ->Children([
+          Text::Create()
+          ->Text("У вас уже есть аккаунт?"),
+          Space::Create()
+          ->Orientation(Space::Horizontal)
+          ->Spacing(Px(5)),
           (new Link)
-          ->SetLink("LoginPage.php")
-          ->SetChild("Войдите в него!")
+          ->Link("LoginPage.php")
+          ->Child("Войдите в него!")
         ]),
-        (new Space),
-        (new Row)
-        ->AddThemeParameter(Height, Auto)
-        ->AddChilds([
+        Space::Create(),
+        Row::Create()
+        ->ThemeParameter(Height, Auto)
+        ->Children([
           (new TextField)
-          ->SetActionKey("name")
-          ->AddThemeKey("graver_auth_field")
-          ->SetPlaceholder("Имя")
-          ->SetText($this->Name),
-          (new Space)
-          ->SetOrientation(Space::Horizontal)
-          ->SetSpace(Px(10)),
+          ->ActionKey("name")
+          ->ThemeKeys("graver_auth_field")
+          ->Placeholder("Имя")
+          ->Text($this->Name),
+          Space::Create()
+          ->Orientation(Space::Horizontal)
+          ->Spacing(Px(10)),
           (new TextField)
-          ->SetActionKey("last_name")
-          ->AddThemeKey("graver_auth_field")
-          ->SetPlaceholder("Фамилия")
-          ->SetText($this->LastName)
+          ->ActionKey("last_name")
+          ->ThemeKeys("graver_auth_field")
+          ->Placeholder("Фамилия")
+          ->Text($this->LastName)
         ]),
-        (new Space),
-        (new Text)
-        ->SetText("Логин должен состоять из минимум 7 латинских букв или цифр"),
-        (new Space),
+        Space::Create(),
+        Text::Create()
+        ->Text("Логин должен состоять из минимум 7 латинских букв или цифр"),
+        Space::Create(),
         (new TextField)
-        ->SetActionKey("login")
-        ->AddThemeKey("graver_auth_field")
-        ->SetPlaceholder("Логин")
-        ->SetText($this->Login),
-        (new Space),
-        (new Text)
-        ->SetText("Пароль должен быть длинее 7 символов и содержать одну цифру, букву, и заглавную букву"),
-        (new Space),
+        ->ActionKey("login")
+        ->ThemeKeys("graver_auth_field")
+        ->Placeholder("Логин")
+        ->Text($this->Login),
+        Space::Create(),
+        Text::Create()
+        ->Text("Пароль должен быть длинее 7 символов и содержать одну цифру, букву, и заглавную букву"),
+        Space::Create(),
         (new PasswordField)
-        ->SetActionKey("password")
-        ->AddThemeKey("graver_auth_field")
-        ->SetPlaceholder("Пароль")
-        ->SetText($this->Password),
-        (new Space),
+        ->ActionKey("password")
+        ->ThemeKeys("graver_auth_field")
+        ->Placeholder("Пароль")
+        ->Text($this->Password),
+        Space::Create(),
         (new PasswordField)
-        ->SetActionKey("password_repeat")
-        ->AddThemeKey("graver_auth_field")
-        ->SetPlaceholder("Повтор пароля")
-        ->SetText($this->PasswordRepeat),
-        (new Space),
+        ->ActionKey("password_repeat")
+        ->ThemeKeys("graver_auth_field")
+        ->Placeholder("Повтор пароля")
+        ->Text($this->PasswordRepeat),
+        Space::Create(),
         !empty($this->Message)
-          ? (new Column)
-          ->SetChilds([
+          ? Column::Create()
+          ->Children([
             (new ShakeErrorText)
-            ->SetText($this->Message),
-            (new Space)
+            ->Text($this->Message),
+            Space::Create()
           ])
           : new Container,
         (new Button)
-        ->AddThemeKey("graver_auth_button")
-        ->SetText("Присоеденится")
+        ->ThemeKeys("graver_auth_button")
+        ->Text("Присоеденится")
       ])
     );
   }
 
   function Build() : Node {
     return (new AuthTeample("Присоеденитесь"))
-    ->SetChild($this->BuildForm());
+    ->Child($this->BuildForm());
   }
 }
 

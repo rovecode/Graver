@@ -11,74 +11,74 @@ class ProjectCard extends Component
   private $Title;
   
   /// Title
-  function SetTitle(string $string) {
+  function Title(string $string) {
     $this->Title = $string;
     return $this;
   }
 
   /// RedirectLink
-  function SetRedirectLink(string $string) {
+  function RedirectLink(string $string) {
     $this->RedirectLink = $string;
     return $this;
   }
 
   /// RedirectLink
-  function SetPictureLink(string $string) {
+  function PictureLink(string $string) {
     $this->PictureLink = $string;
     return $this;
   }
 
   /// Size
-  function SetSize(string $string) {
+  function Size(string $string) {
     $this->Size = $string;
     return $this;
   }
 
   /// Build
   function BuildContent() : Element {
-    return (new Picture)
-    ->SetPosition(PicturePositions::Center)
-    ->SetRepeat(PictureRepeats::NoRepeat)
-    ->SetSize(PictureSizes::Cover)
-    ->SetLink($this->PictureLink)
-    ->SetChild(
-      (new Column)
-      ->SetMainAlign(MainAxisAligns::Center)
-      ->SetCrossAlign(CrossAxisAligns::Center)
-      ->AddThemeParameter(Padding, Px(10))
-      ->AddChild(
-        (new Text)
-        ->AddThemeKey("on_show_x_translate")
-        ->AddThemeParameter(AnimationDelay, "0.2s")
-        ->AddThemeParameter(FontSize, Px(32))
-        ->SetText(mb_substr($this->Title, 0, 1))
+    return Picture::Create()
+    ->Positions(PicturePositions::Center)
+    ->Repeat(PictureRepeats::NoRepeat)
+    ->Sizes(PictureSizes::Cover)
+    ->Link($this->PictureLink)
+    ->Child(
+      Column::Create()
+      ->MainAlign(MainAxisAligns::Center)
+      ->CrossAlign(CrossAxisAligns::Center)
+      ->ThemeParameter(Padding, Px(10))
+      ->Children(
+        Text::Create()
+        ->ThemeKeys("on_show_x_translate")
+        ->ThemeParameter(AnimationDelay, "0.2s")
+        ->ThemeParameter(FontSize, Px(32))
+        ->Text(mb_substr($this->Title, 0, 1))
       )
-      ->AddChild(
-        (new Text)
-        ->AddThemeKey("on_show_x_translate")
-        ->AddThemeParameter(AnimationDelay, "0.4s")
-        ->AddThemeParameter(FontWeight, 300)
-        ->SetText($this->Title)
+      ->Children(
+        Text::Create()
+        ->ThemeKeys("on_show_x_translate")
+        ->ThemeParameter(AnimationDelay, "0.4s")
+        ->ThemeParameter(FontWeight, 300)
+        ->Text($this->Title)
       )
     );
   }
 
-  function Build() : Node {
+  function Build() : Element {
     return (new Link)
-    ->AddThemeParameter(TextDecoration, None)
-    ->AddThemeParameter(Color, Black)
-    ->SetLink($this->RedirectLink)
-    ->SetChild(
-      (new Container)
-      ->AddThemeParameter(MinWidth, $this->Size)
-      ->AddThemeParameter(MaxWidth, $this->Size)
-      ->AddThemeParameter(Width, $this->Size)
-      ->AddThemeParameter(MinHeight, $this->Size)
-      ->AddThemeParameter(MaxHeight, $this->Size)
-      ->AddThemeParameter(Height, $this->Size)
-      ->AddThemeKey("graver_project_card")
-      //->AddThemeParameter(Padding, Px(5))
-      ->SetChild($this->BuildContent())
+    ->ThemeParameter(TextDecoration, None)
+    ->ThemeParameter(Color, Black)
+    ->Link($this->RedirectLink)
+    ->Child(
+      Container::Create()
+      ->ThemeParameter(MinWidth, $this->Size)
+      ->ThemeParameter(MaxWidth, $this->Size)
+      ->ThemeParameter(Width, $this->Size)
+      ->ThemeParameter(MinHeight, $this->Size)
+      ->ThemeParameter(MaxHeight, $this->Size)
+      ->ThemeParameter(Height, $this->Size)
+      ->ThemeKeys("graver_project_card")
+      //->ThemeParameter(Padding, Px(5))
+      ->Child($this->BuildContent())
     );
   }
 }

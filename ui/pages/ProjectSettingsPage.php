@@ -6,18 +6,15 @@ require_once(__DIR__ . "/../elements/include.php");
 require_once(__DIR__ . "/../../libs/include_tree-php.php");
 require_once(__DIR__ . "/../../backend/include.php");
 
-class ProjectSettingsPage extends Component
+class ProjecttingsPage extends Component
 {
   private $ProjectID = -1;
-  private $FolderID;
   private $Fodlers;
   private $Message = "";
 
   function Think() {
     if (isset($_GET["project_id"]))
       $this->ProjectID = $_GET["project_id"];
-    if (isset($_GET["folder_id"]))
-      $this->FolderID = $_GET["folder_id"];
 
     $this->Fodlers = FolderController::GetInstance()->GetFolders($this->ProjectID);
 
@@ -28,7 +25,7 @@ class ProjectSettingsPage extends Component
 
     if (isset($_GET["delete_folder"]) && $_GET["delete_folder"] == "true") {
       $this->DeleteFolder($_GET["folder_delete_id"]);
-      Controller::RedirectTo("ProjectSettingsPage.php?project_id=".$this->ProjectID."&folder_id=".$this->FolderID);
+      Controller::RedirectTo("ProjectSettingsPage.php?project_id=".$this->ProjectID);
     }
 
     if (isset($_GET["delete_project"]) && $_GET["delete_project"] == "true") {
@@ -54,74 +51,74 @@ class ProjectSettingsPage extends Component
   }
 
   function __construct() {
+    parent::__construct();
     $this->Think();
   }
 
   function BuildContent() : Element {
-    $column = (new Column);
+    $column = Column::Create();
     foreach ($this->Fodlers as $value) {
-      $column->AddChild(
+      $column->Children(
         (new ListItem)
-        ->SetIcon(Icons::FolderOpen)
-        ->SetTitle($value["name"])
-        ->SetLink("")
-        ->SetPrefix(
+        ->Icon(Icons::FolderOpen)
+        ->Title($value["name"])
+        ->Link("")
+        ->Prefix(
           (new Link)
-          ->AddThemeParameter(Width, Px(32))
-          ->AddThemeParameter(Height, Px(32))
-          ->AddThemeParameter(MinWidth, Px(32))
-          ->AddThemeParameter(MinHeight, Px(32))
-          ->AddThemeParameter(Padding, 0)
-          ->AddThemeKey("graver_button")
-          ->SetLink("ProjectSettingsPage.php?delete_folder=true&project_id=".$this->ProjectID."&folder_id=".$this->FolderID."&folder_delete_id=".$value["id"])
-          ->SetChild(
-            (new Text)
-            ->AddThemeKey("material_icons")
-            ->AddThemeParameter(Color, Red)
-            ->SetText("delete")
+          ->ThemeParameter(Width, Px(32))
+          ->ThemeParameter(Height, Px(32))
+          ->ThemeParameter(MinWidth, Px(32))
+          ->ThemeParameter(MinHeight, Px(32))
+          ->ThemeParameter(Padding, 0)
+          ->ThemeKeys("graver_button")
+          ->Link("ProjectSettingsPage.php?delete_folder=true&project_id=".$this->ProjectID."&folder_id=".$this->FolderID."&folder_delete_id=".$value["id"])
+          ->Child(
+            Text::Create()
+            ->ThemeKeys("material_icons")
+            ->ThemeParameter(Color, Red)
+            ->Text("delete")
           )
         )
-        ->Build()
-        ->AddThemeParameter(BackgroundColor, Transparent)
-        ->AddThemeParameter(Border, [Px(0), Solid, Transparent])
+        ->ThemeParameter(BackgroundColor, Transparent)
+        ->ThemeParameter(Border, [Px(0), Solid, Transparent])
       );
     }
-    return (new Column)
-    ->SetChilds([
-      (new Text) 
-      ->SetText("Тестовый диалог для настройки проекта!"),
-      (new Space),
-      (new Text) 
-      ->AddThemeParameter(FontWeight, 500)
-      ->SetText("Папки"),
-      (new Space),
-      (new VerticalScrollView)
-      ->AddThemeParameter(MaxHeight, Px(200))
-      ->SetChild($column),
-      (new Space),
+    return Column::Create()
+    ->Children([
+      Text::Create() 
+      ->Text("Тестовый диалог для настройки проекта!"),
+      Space::Create(),
+      Text::Create() 
+      ->ThemeParameter(FontWeight, 500)
+      ->Text("Папки"),
+      Space::Create(),
+      VerticalScrollView::Create()
+      ->ThemeParameter(MaxHeight, Px(200))
+      ->Child($column),
+      Space::Create(),
       !empty($this->Message)
         ? (new ShakeErrorText)
-          ->SetText($this->Message)
+          ->Text($this->Message)
         : new Container,
     ]);
   }
 
-  function Build() : Node {
+  function Build() : Element {
     return (new Document)
-    ->AddThemes(GetAdaptiveThemes())
-    ->AddTheme(GetGraverTheme())
-    ->AddTheme(GetFontsTheme())
-    ->AddThemeParameter(BackgroundColor, Hex("e6e8ea"))
-    ->SetChild(
+    ->Themes(GetAdaptiveThemes())
+    ->Themes(GetGraverTheme())
+    ->Themes(GetFontsTheme())
+    ->ThemeParameter(BackgroundColor, Hex("e6e8ea"))
+    ->Child(
       (new Dialog)
-      ->SetTitle("Настроить проект")
-      ->SetOkText("Удалить проект")
-      ->SetCancelText("Назад к проекту")
-      ->SetBackRedirect("ProjectPage.php?id=".$this->ProjectID."&folder_id=".$this->FolderID)
-      ->SetToRedirect("ProjectSettingsPage.php?delete_project=true&project_id=".$this->ProjectID."&folder_id=".$this->FolderID)
-      ->SetChild($this->BuildContent())
+      ->Title("Настроить проект")
+      ->OkText("Удалить проект")
+      ->CancelText("Назад к проекту")
+      ->BackRedirect("ProjectPage.php?id=".$this->ProjectID)
+      ->ToRedirect("ProjectSettingsPage.php?delete_project=true&project_id=".$this->ProjectID)
+      ->Child($this->BuildContent())
     );
   }
 }
 
-Node::Run(new ProjectSettingsPage);
+Node::Run(new ProjecttingsPage);

@@ -13,90 +13,90 @@ class Dialog extends Component
   private $Child = " ";
 
   /// BackRedirect
-  function SetBackRedirect(string $string) {
+  function BackRedirect(string $string) {
     $this->BackRedirect = $string;
     return $this;
   }
 
   /// ToRedirect
-  function SetToRedirect(string $string) {
+  function ToRedirect(string $string) {
     $this->ToRedirect = $string;
     return $this;
   }
 
   /// Title
-  function SetTitle(string $string) {
+  function Title(string $string) {
     $this->Title = $string;
     return $this;
   }
 
   /// CancelButtonText
-  function SetCancelText(string $string) {
+  function CancelText(string $string) {
     $this->CancelButtonText = $string;
     return $this;
   }
 
   /// PkButtonText
-  function SetOkText(string $string) {
+  function OkText(string $string) {
     $this->OkButtonText = $string;
     return $this;
   }
 
   /// Childs
-  function SetChild($value) {
+  function Child($value) {
     $this->Child = is_string($value)
-      ? (new Text)->SetText($value)
+      ? Text::Create()->Text($value)
       : $value;
     return $this;
   }
 
   /// Build
-  function Build() : Node {
-    return (new Column)
-    ->SetCrossAlign(CrossAxisAligns::Center)
-    ->SetMainAlign(MainAxisAligns::Center)
-    ->AddChild(
+  function Build() : Element {
+    return Column::Create()
+    ->CrossAlign(CrossAxisAligns::Center)
+    ->MainAlign(MainAxisAligns::Center)
+    ->Children(
       (new Action)
-      ->SetType(ActionTypes::Post)
-      ->AddThemeKey("adaptive_dialog")
-      ->SetRedirect($this->ToRedirect)
-      ->SetChild(
-        (new Column)
-        ->AddThemeKey("on_show_translate")
-        ->SetMainAlign(MainAxisAligns::Center)
-        ->AddThemeParameter(BackgroundColor, Hex("f1f1f157"))
-        ->AddThemeParameter(Padding, [Px(35), Px(25)])
-        ->AddThemeParameter(BorderRadius, Px(5))
-        ->AddThemeParameter(Border, [Px(1), Solid, Hex("8c8c8c3b")])
-        ->AddThemeParameter(BorderTop, [Px(1), Solid, Hex("ffffffe0")])
-        ->AddThemeParameter(BorderBottom, [Px(1), Solid, Hex("8080808c")])
-        ->AddChild(
-          (new Container)
-          ->AddThemeParameter(Height, Auto)
-          ->SetChild(
-            (new Column)
-            ->AddThemeParameter(Height, Auto)
-            ->AddChilds([
-              (new Text)
-              ->AddThemeParameter(FontSize, Px(22))
-              ->SetText($this->Title),
-              (new Space),
+      ->Type(ActionTypes::Post)
+      ->ThemeKeys("adaptive_dialog")
+      ->Redirect($this->ToRedirect)
+      ->Child(
+        Column::Create()
+        ->ThemeKeys("on_show_translate")
+        ->MainAlign(MainAxisAligns::Center)
+        ->ThemeParameter(BackgroundColor, Hex("f1f1f157"))
+        ->ThemeParameter(Padding, [Px(35), Px(25)])
+        ->ThemeParameter(BorderRadius, Px(5))
+        ->ThemeParameter(Border, [Px(1), Solid, Hex("8c8c8c3b")])
+        ->ThemeParameter(BorderTop, [Px(1), Solid, Hex("ffffffe0")])
+        ->ThemeParameter(BorderBottom, [Px(1), Solid, Hex("8080808c")])
+        ->Children(
+          Container::Create()
+          ->ThemeParameter(Height, Auto)
+          ->Child(
+            Column::Create()
+            ->ThemeParameter(Height, Auto)
+            ->Children([
+              Text::Create()
+              ->ThemeParameter(FontSize, Px(22))
+              ->Text($this->Title),
+              Space::Create(),
               $this->Child,
-              (new Space),
-              (new Row)
-              ->AddChilds([
+              Space::Create(),
+              Row::Create()
+              ->Children([
                 (new Link)
-                ->AddThemeKey("graver_button")
-                ->SetLink($this->BackRedirect)
-                ->AddThemeParameter(Width, Pr(100))
-                ->SetChild($this->CancelButtonText),
-                (new Space)
-                ->SetOrientation(Space::Horizontal)
-                ->SetSpace(Px(10)),
+                ->ThemeKeys("graver_button")
+                ->Link($this->BackRedirect)
+                ->ThemeParameter(Width, Pr(100))
+                ->Child($this->CancelButtonText),
+                Space::Create()
+                ->Orientation(Space::Horizontal)
+                ->Spacing(Px(10)),
                 (new Button)
-                ->AddThemeKey("graver_button")
-                ->AddThemeParameter(Width, Pr(100))
-                ->SetText($this->OkButtonText)
+                ->ThemeKeys("graver_button")
+                ->ThemeParameter(Width, Pr(100))
+                ->Text($this->OkButtonText)
               ])
             ])
           )

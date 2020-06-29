@@ -9,54 +9,54 @@ class ProjectTile extends Component
   private $SubTitle;
   private $Splash;
 
-  function SetLink(string $string) {
+  function Link(string $string) {
     $this->Link = $string;
     return $this;
   }
 
-  function SetSplash(bool $string) {
+  function Splash(bool $string) {
     $this->Splash = $string;
     return $this;
   }
 
-  function SetTitle(string $string) {
+  function Title(string $string) {
     $this->Title = $string;
     return $this;
   }
 
-  function SetSubTitle(string $string) {
+  function SubTitle(string $string) {
     $this->SubTitle = $string;
     return $this;
   }
 
-  function Build() : Node {
+  function Build() : Element {
     return (new Link)
-    ->SetLink($this->Link)
-    ->AddThemeKey($this->Splash == false ? "on_show_x_translate" : "")
-    ->AddThemeParameter(AnimationDuration, "0.45s")
-    ->AddThemeParameter(Width, Pr(100))
-    ->AddThemeParameter(Height, Px(60))
-    ->AddThemeKey("graver_button")
-    ->SetChild(
-      (new Column)
-      ->AddChild(
-        (new Text)
-        ->AddThemeKey($this->Splash == false ? "on_show_x_translate" : "")
-        ->AddThemeParameter(AnimationDuration, "0.45s")
-        ->AddThemeParameter(AnimationDelay, "0.25s")
-        ->AddThemeParameter(PaddingTop, Px(3))
-        ->AddThemeParameter(Color, Black)
-        ->SetText($this->Title)
+    ->Link($this->Link)
+    ->ThemeKeys($this->Splash == false ? "on_show_x_translate" : "")
+    ->ThemeParameter(AnimationDuration, "0.45s")
+    ->ThemeParameter(Width, Pr(100))
+    ->ThemeParameter(Height, Px(60))
+    ->ThemeKeys("graver_button")
+    ->Child(
+      Column::Create()
+      ->Children(
+        Text::Create()
+        ->ThemeKeys($this->Splash == false ? "on_show_x_translate" : "")
+        ->ThemeParameter(AnimationDuration, "0.45s")
+        ->ThemeParameter(AnimationDelay, "0.25s")
+        ->ThemeParameter(PaddingTop, Px(3))
+        ->ThemeParameter(Color, Black)
+        ->Text($this->Title)
       )
-      ->AddChild(
-        (new Text)
-        ->AddThemeKey($this->Splash == false ? "on_show_x_translate" : "")
-        ->AddThemeParameter(AnimationDuration, "0.45s")
-        ->AddThemeParameter(AnimationDelay, "0.35s")
-        ->AddThemeParameter(FontWeight, 500)
-        ->AddThemeParameter(FontSize, Px(12))
-        ->AddThemeParameter(Color, Gray)
-        ->SetText($this->SubTitle)
+      ->Children(
+        Text::Create()
+        ->ThemeKeys($this->Splash == false ? "on_show_x_translate" : "")
+        ->ThemeParameter(AnimationDuration, "0.45s")
+        ->ThemeParameter(AnimationDelay, "0.35s")
+        ->ThemeParameter(FontWeight, 500)
+        ->ThemeParameter(FontSize, Px(12))
+        ->ThemeParameter(Color, Gray)
+        ->Text($this->SubTitle)
       )
     );
   }

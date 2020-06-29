@@ -10,69 +10,69 @@ class ListItem extends Component
   private $Link;
   private $Icon = Icons::List;
 
-  function SetLink(string $string) {
+  function Link(string $string) {
     $this->Link = $string;
     return $this;
   }
 
-  function SetPrefix(Node $string) {
+  function Prefix(Node $string) {
     $this->Prefix = $string;
     return $this;
   }
 
-  function SetIcon(string $string) {
+  function Icon(string $string) {
     $this->Icon = $string;
     return $this;
   }
 
-  function SetTitle(string $string) {
+  function Title(string $string) {
     $this->Title = $string;
     return $this;
   }
 
   function BuildsContent() {
-    return (new Row)
-    ->SetCrossAlign(CrossAxisAligns::Center)
-    ->AddThemeParameter(Padding, [Px(9), Px(20)])
-    ->AddChild(
-      (new Text)
-      ->AddThemeKey("material_icons")
-      ->AddThemeParameter(Color, Hex("4242429c"))
-      ->AddThemeParameter(PaddingRight, Px(10))
-      ->SetText($this->Icon)
+    return Row::Create()
+    ->CrossAlign(CrossAxisAligns::Center)
+    ->ThemeParameter(Padding, [Px(9), Px(20)])
+    ->Children(
+      Text::Create()
+      ->ThemeKeys("material_icons")
+      ->ThemeParameter(Color, Hex("4242429c"))
+      ->ThemeParameter(PaddingRight, Px(10))
+      ->Text($this->Icon)
     )
-    ->AddChild(
-      (new HorizontalScrollView)
-      ->AddThemeKey("graver_hide_scrollbar")
-      ->SetChild(
-        (new Column)
-        ->SetMainAlign(MainAxisAligns::Center)
-        ->AddChild(
-          (new Text)
-          ->AddThemeParameter(WhiteSpace, "pre")
-          ->AddThemeParameter(Width, Pr(100))
-          ->AddThemeParameter(Color, Black)
-          ->SetText($this->Title)
+    ->Children(
+      HorizontalScrollView::Create()
+      ->ThemeKeys("graver_hide_scrollbar")
+      ->Child(
+        Column::Create()
+        ->MainAlign(MainAxisAligns::Center)
+        ->Children(
+          Text::Create()
+          ->ThemeParameter(WhiteSpace, "pre")
+          ->ThemeParameter(Width, Pr(100))
+          ->ThemeParameter(Color, Black)
+          ->Text($this->Title)
         )
       )
     )
-    ->AddChild(
+    ->Children(
       $this->Prefix == null ? new COntainer : $this->Prefix
     );
   }
 
-  function Build() : Node {
+  function Build() : Element {
     return $this->Link != "" 
     ? (new Link)
-      ->AddThemeKey("graver_list_item")
-      ->AddThemeParameter(Width, Pr(100))
-      ->AddThemeParameter(TextDecoration, None)
-      ->SetLink($this->Link)
-      ->SetChild( $this->BuildsContent() )
-    : (new Container)
-      ->AddThemeKey("graver_list_item")
-      ->AddThemeParameter(Width, Pr(100))
-      ->AddThemeParameter(TextDecoration, None)
-      ->SetChild($this->BuildsContent());
+      ->ThemeKeys("graver_list_item")
+      ->ThemeParameter(Width, Pr(100))
+      ->ThemeParameter(TextDecoration, None)
+      ->Link($this->Link)
+      ->Child( $this->BuildsContent() )
+    : Container::Create()
+      ->ThemeKeys("graver_list_item")
+      ->ThemeParameter(Width, Pr(100))
+      ->ThemeParameter(TextDecoration, None)
+      ->Child($this->BuildsContent());
   }
 }

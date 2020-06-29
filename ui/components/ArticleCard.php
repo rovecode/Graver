@@ -11,87 +11,87 @@ class ArticleCard extends Component
   private $ImageHeight = "225px";
   
   /// Title
-  function SetTitle(string $string) {
+  function Title(string $string) {
     $this->Title = $string;
     return $this;
   }
 
   /// RedirectLink
-  function SetRedirectLink(string $string) {
+  function RedirectLink(string $string) {
     $this->RedirectLink = $string;
     return $this;
   }
 
   /// RedirectLink
-  function SetPictureLink(string $string) {
+  function PictureLink(string $string) {
     $this->PictureLink = $string;
     return $this;
   }
 
   /// ImageHeight
-  function SetImageHeight(string $string) {
+  function ImageHeight(string $string) {
     $this->ImageHeight = $string;
     return $this;
   }
 
   /// Build
   function BuildPicture() : Element {
-    return (new Picture)
-    ->AddThemeParameter(BorderBottom, [Px(1), Solid, Hex("8484849e")])
-    ->AddThemeParameter(Height, $this->ImageHeight)
-    ->AddThemeParameter(BorderRadius, Px(5))
-    ->SetPosition(PicturePositions::Center)
-    ->SetRepeat(PictureRepeats::NoRepeat)
-    ->SetSize(PictureSizes::Cover)
-    ->SetLink($this->PictureLink);
+    return Picture::Create()
+    ->ThemeParameter(BorderBottom, [Px(1), Solid, Hex("8484849e")])
+    ->ThemeParameter(Height, $this->ImageHeight)
+    ->ThemeParameter(BorderRadius, Px(5))
+    ->Positions(PicturePositions::Center)
+    ->Repeat(PictureRepeats::NoRepeat)
+    ->Sizes(PictureSizes::Cover)
+    ->Link($this->PictureLink);
   }
 
   function BuildBottom() : Element {
-    return (new Row)
-    ->AddThemeParameter(Padding, [Px(15), Px(30)])
-    ->AddThemeParameter(Height, Auto)
-    ->SetCrossAlign(CrossAxisAligns::Center)
-    ->AddChild(
-      (new Text)
-      ->AddThemeParameter(FontSize, Px(16))
-      ->AddThemeParameter(Width, Pr(100))
-      ->SetText($this->Title)
+    return Row::Create()
+    ->ThemeParameter(Padding, [Px(15), Px(30)])
+    ->ThemeParameter(Height, Auto)
+    ->CrossAlign(CrossAxisAligns::Center)
+    ->Children(
+      Text::Create()
+      ->ThemeParameter(FontSize, Px(16))
+      ->ThemeParameter(Width, Pr(100))
+      ->Text($this->Title)
     )
-    ->AddChild(
+    ->Children(
       (new Link)
-      ->SetLink($this->RedirectLink)
-      ->SetChild(
+      ->Link($this->RedirectLink)
+      ->Child(
         (new Button)
-        ->AddThemeParameter(Width, Auto)
-        ->AddThemeKey("on_show_x_translate")
-        ->AddThemeParameter(AnimationDelay, "0.2s")
-        ->AddThemeKey("graver_button")
-        ->SetText("Читать")
+        ->ThemeParameter(Width, Auto)
+        ->ThemeKeys("on_show_x_translate")
+        ->ThemeParameter(AnimationDelay, "0.2s")
+        ->ThemeKeys("graver_button")
+        ->Text("Читать")
       )
     );
   }
 
-  function Build() : Node {
-    return (new Container)
-    ->AddThemeParameter(Height, Auto)
-    ->AddThemeParameter(BorderRadius, Px(5))
-    ->AddThemeParameter(Border, [Px(1), Solid, Hex("8c8c8c3b")])
-    ->AddThemeParameter(BorderTop, [Px(1), Solid, Hex("ffffffe0")])
-    ->AddThemeParameter(BorderBottom, [Px(1), Solid, Hex("8080808c")])
-    ->SetChild(
-      (new Picture)
-      ->AddThemeParameter(BorderRadius, Px(5))
-      ->SetPosition(PicturePositions::Center)
-      ->SetRepeat(PictureRepeats::NoRepeat)
-      ->SetSize(PictureSizes::Cover)
-      ->SetLink($this->PictureLink)
-      ->SetChild(
-        (new Column)
-        ->AddThemeParameter(Height, Auto)
-        ->AddThemeParameter(BorderRadius, Px(5))
-        ->AddThemeKey("graver_auth_form_background")
-        ->AddChild($this->BuildPicture())
-        ->AddChild($this->BuildBottom())
+  function Build() : Element {
+    return Container::Create()
+    ->ThemeParameter(Height, Auto)
+    ->ThemeParameter(BorderRadius, Px(5))
+    ->ThemeParameter(Border, [Px(1), Solid, Hex("8c8c8c3b")])
+    ->ThemeParameter(BorderTop, [Px(1), Solid, Hex("ffffffe0")])
+    ->ThemeParameter(BorderBottom, [Px(1), Solid, Hex("8080808c")])
+    ->Child(
+      Picture::Create()
+      ->ThemeParameter(BorderRadius, Px(5))
+      ->Positions(PicturePositions::Center)
+      ->Repeat(PictureRepeats::NoRepeat)
+      ->Sizes(PictureSizes::Cover)
+      ->Link($this->PictureLink)
+      ->Child(
+        Column::Create()
+        ->ThemeParameter(Height, Auto)
+        ->ThemeParameter(BorderRadius, Px(5))
+        ->ThemeKeys("graver_auth_form_background")
+        ->Children($this->BuildPicture())
+        ->Children($this->BuildBottom())
       )
     );
   }

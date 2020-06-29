@@ -6,6 +6,6 @@ class ShakeErrorText extends Text
 {
   function __construct() {
     parent::__construct();
-    $this->AddThemeKey("graver_shake_error_text");
+    $this->ThemeKeys("graver_shake_error_text");
   }
 }

@@ -10,7 +10,7 @@ class Separator extends Component
   private $Orientation = Separator::Horizontal;
 
   // Orientation
-  function SetOrientation(bool $orientation) {
+  function Orientation(bool $orientation) {
     $this->Orientation = $orientation;
     return $this;
   }
@@ -19,18 +19,18 @@ class Separator extends Component
     return $this->Orientation;
   }
 
-  function Build() : Node {
-    $cont = (new Container)
-    ->AddThemeParameter(BackgroundColor, Hex("bababa"));
+  function Build() : Element {
+    $cont = Container::Create()
+    ->ThemeParameter(BackgroundColor, Hex("bababa"));
     if ($this->Orientation) {
-      $cont->AddThemeParameter(Width, Px(1));
-      $cont->AddThemeParameter(MaxWidth, Px(1));
-      $cont->AddThemeParameter(MinWidth, Px(1));
+      $cont->ThemeParameter(Width, Px(1));
+      $cont->ThemeParameter(MaxWidth, Px(1));
+      $cont->ThemeParameter(MinWidth, Px(1));
     }
     else {
-      $cont->AddThemeParameter(Height, Px(1));
-      $cont->AddThemeParameter(MaxHeight, Px(1));
-      $cont->AddThemeParameter(MinHeight, Px(1));
+      $cont->ThemeParameter(Height, Px(1));
+      $cont->ThemeParameter(MaxHeight, Px(1));
+      $cont->ThemeParameter(MinHeight, Px(1));
     }
     return $cont;
   }

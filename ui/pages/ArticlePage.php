@@ -26,6 +26,7 @@ class ArticlePage extends Component
     }
     return $text;
   }
+  
   function Think() {
     $this->Title = $_GET["title"];
     $this->Picture = $_GET["picture"];
@@ -37,125 +38,118 @@ class ArticlePage extends Component
     $this->Text = new Queue;
     foreach ($textArray as $value) {
       if (strlen($value) >= 2 && $value[0] == "#" && $value[1] == " ")
-        $this->Text->AddChild(
-          (new Text)
-          ->AddThemeParameter(FontSize, Px(19))
-          ->SetText(substr($value, 2))
+        $this->Text->Children(
+          Text::Create()
+          ->ThemeParameter(FontSize, Px(19))
+          ->Text(substr($value, 2))
         );
       else
-        $this->Text->AddChild(
-          (new Text)
-          ->SetText($value)
+        $this->Text->Children(
+          Text::Create()
+          ->Text($value)
         );
-      $this->Text->AddChild(
-        (new Space)
+      $this->Text->Children(
+        Space::Create()
       );
     }
   }
 
   function __construct() {
+    parent::__construct();
     $this->Think();
   }
 
   /// Build
   function BuildLeft() : Element {
-    return (new Container);
+    return Container::Create();
   }
 
   function BuildRight() : Element {
-    return (new Container)
-    ->SetChild(
-      (new Stack)
-      ->AddChild(
-        (new VerticalScrollView)
-        ->AddThemeParameter(BackgroundColor, Hex("f1f1f1e3"))
-        ->AddThemeParameter(BackdropFilter, Blur(Px(30)))
-        ->AddThemeParameter(WebKit(BackdropFilter), Blur(Px(30)))
-        ->AddThemeKey("graver_hide_scrollbar")
-        ->SetChild(
-          (new Column)
-          ->AddThemeKey("on_show_x_large_translate")
-          ->AddThemeParameter(Padding, [Px(230), Px(40), Px(40), Px(40)])
-          ->AddThemeParameter(AnimationDelay, "0.4s")
-          ->SetChilds($this->Text->GetChilds())
+    return Container::Create()
+    ->Child(
+      Stack::Create()
+      ->Children(
+        VerticalScrollView::Create()
+        ->ThemeParameter(BackgroundColor, Hex("f1f1f1e3"))
+        ->ThemeParameter(BackdropFilter, Blur(Px(30)))
+        ->ThemeParameter(WebKit(BackdropFilter), Blur(Px(30)))
+        ->ThemeKeys("graver_hide_scrollbar")
+        ->Child(
+          Column::Create()
+          ->ThemeKeys("on_show_x_large_translate")
+          ->ThemeParameter(Padding, [Px(230), Px(40), Px(40), Px(40)])
+          ->ThemeParameter(AnimationDelay, "0.4s")
+          ->Children($this->Text)
         )
       )
-      ->AddChilds([
-        (new Container)
-        ->AddThemeParameter(BackdropFilter, Blur(Px(30)))
-        ->AddThemeParameter(WebKit(BackdropFilter), Blur(Px(30)))
-        ->AddThemeParameter(ZIndex, 3)
-        ->AddThemeParameter(Height, Auto)
-        ->AddThemeParameter(Padding, [Px(60), Px(40), 0, Px(40)])
-        ->SetChild(
-          (new Column)
-          ->AddChild(
-            (new Row)
-            ->AddThemeKey("on_show_x_translate")
-            ->AddThemeParameter(AnimationDuration, "0.3s")
-            ->SetCrossAlign(CrossAxisAligns::Center)
-            ->AddChild(
-              (new Text)
-              ->AddThemeParameter(FontSize, Px(22))
-              ->AddThemeParameter(Width, Pr(100))
-              ->SetText($this->Title)
+      ->Children([
+        Container::Create()
+        ->ThemeParameter(BackdropFilter, Blur(Px(30)))
+        ->ThemeParameter(WebKit(BackdropFilter), Blur(Px(30)))
+        ->ThemeParameter(ZIndex, 3)
+        ->ThemeParameter(Height, Auto)
+        ->ThemeParameter(Padding, [Px(60), Px(40), 0, Px(40)])
+        ->Child(
+          Column::Create()
+          ->Children(
+            Row::Create()
+            ->ThemeKeys("on_show_x_translate")
+            ->ThemeParameter(AnimationDuration, "0.3s")
+            ->CrossAlign(CrossAxisAligns::Center)
+            ->Children(
+              Text::Create()
+              ->ThemeParameter(FontSize, Px(22))
+              ->ThemeParameter(Width, Pr(100))
+              ->Text($this->Title)
             )
-            ->AddChild(
-              (new Space)
-              ->SetOrientation(Space::Vertical)
-              ->SetSpace(Px(7))
+            ->Children(
+              Space::Create()
+              ->Orientation(Space::Vertical)
+              ->Spacing(Px(7))
             )
-            ->AddChild(
+            ->Children(
               (new Link)
-              ->SetLink("HomePage.php")
-              ->SetChild(
+              ->Link("HomePage.php")
+              ->Child(
                 (new Button)
-                ->AddThemeKey("on_show_x_translate")
-                ->AddThemeParameter(AnimationDelay, "0.3s")
-                ->AddThemeParameter(Width, Auto)
-                ->AddThemeKey("graver_button")
-                ->SetText("Прочитал")
+                ->ThemeKeys("on_show_x_translate")
+                ->ThemeParameter(AnimationDelay, "0.3s")
+                ->ThemeParameter(Width, Auto)
+                ->ThemeKeys("graver_button")
+                ->Text("Прочитал")
               )
             )
           )
-          ->AddChilds([
-            (new Space)
-            ->SetSpace(Px(35)),
-            (new Separator)
-            ->SetOrientation(Separator::Vertical)
+          ->Children([
+            Space::Create()
+            ->Spacing(Px(35)),
+            Separator::Create()
+            ->Orientation(Separator::Vertical)
           ])
         )
       ])
     );
   }
 
-  function Build() : Node {
+  function Build() : Element {
     return (new Document)
-    ->SetTitle("Статья: ".$this->Title . ", graver.com")
-    ->AddTheme(GetGraverTheme())
-    ->AddThemes(GetAdaptiveThemes())
-    ->SetChild(
-      (new Stack)
-      ->AddThemeKey("graver_page_background")
-      ->SetChilds([
-        (new Picture)
-        ->SetLink(Url($this->Picture))
-        ->SetRepeat(PictureRepeats::NoRepeat)
-        ->SetSize(PictureSizes::Cover)
-        /*->SetChild(
-          (new Container)
-          //->AddThemeParameter(BackgroundColor, Hex("00000010"))
-          ->AddThemeParameter(BackdropFilter, Blur(Px(1)))
-        )*/,
-        (new Row)
-        ->SetChilds([
+    ->Title("Статья: ".$this->Title . ", graver.com")
+    ->Themes(GetGraverTheme())
+    ->Themes(GetAdaptiveThemes())
+    ->Child(
+      Stack::Create()
+      ->ThemeKeys("graver_page_background")
+      ->Children([
+        Picture::Create()
+        ->Link(Url($this->Picture))
+        ->Repeat(PictureRepeats::NoRepeat)
+        ->Sizes(PictureSizes::Cover),
+        Row::Create()
+        ->Children([
           $this->BuildLeft()
-          ->AddThemeKey("not_mobile"),
-          (new Separator)->Build()
-          ->AddThemeParameter(BackgroundColor, Hex("ffffff65"))
-          ->AddThemeKey("not_mobile"),
-          (new Separator)->Build()
-          ->AddThemeKey("not_mobile"),
+          ->ThemeKeys("not_mobile"),
+          Separator::Create()
+          ->ThemeKeys("not_mobile"),
           $this->BuildRight()
         ])
       ])

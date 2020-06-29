@@ -9,44 +9,44 @@ class CreateProjectCard extends Component
   private $RedirectLink;
 
   /// RedirectLink
-  function SetRedirectLink(string $string) {
+  function RedirectLink(string $string) {
     $this->RedirectLink = $string;
     return $this;
   }
 
   /// Size
-  function SetSize(string $string) {
+  function Size(string $string) {
     $this->Size = $string;
     return $this;
   }
 
   /// Build
   function BuildContent() : Element {
-    return (new Column)
-    ->SetCrossAlign(CrossAxisAligns::Center)
-    ->SetMainAlign(MainAxisAligns::Center)
-    ->AddChild(
-      (new Text)
-      ->AddThemeKey("material_icons")
-      ->SetText("add")
+    return Column::Create()
+    ->CrossAlign(CrossAxisAligns::Center)
+    ->MainAlign(MainAxisAligns::Center)
+    ->Children(
+      Text::Create()
+      ->ThemeKeys("material_icons")
+      ->Text("add")
     );
   }
 
-  function Build() : Node {
+  function Build() : Element {
     return (new Link)
-    ->AddThemeParameter(TextDecoration, None)
-    //->AddThemeParameter(Color, Gray)
-    ->SetLink($this->RedirectLink)
-    ->SetChild(
-      (new Container)
-      ->AddThemeKey("graver_add_project_button")
-      ->AddThemeParameter(MinWidth, Px($this->Size / 2))
-      ->AddThemeParameter(MaxWidth, Px($this->Size / 2))
-      ->AddThemeParameter(Width, Px($this->Size / 2))
-      ->AddThemeParameter(MinHeight, $this->Size)
-      ->AddThemeParameter(MaxHeight, $this->Size)
-      ->AddThemeParameter(Height, $this->Size)
-      ->SetChild( $this->BuildContent())
+    ->ThemeParameter(TextDecoration, None)
+    //->ThemeParameter(Color, Gray)
+    ->Link($this->RedirectLink)
+    ->Child(
+      Container::Create()
+      ->ThemeKeys("graver_add_project_button")
+      ->ThemeParameter(MinWidth, Px($this->Size / 2))
+      ->ThemeParameter(MaxWidth, Px($this->Size / 2))
+      ->ThemeParameter(Width, Px($this->Size / 2))
+      ->ThemeParameter(MinHeight, $this->Size)
+      ->ThemeParameter(MaxHeight, $this->Size)
+      ->ThemeParameter(Height, $this->Size)
+      ->Child( $this->BuildContent())
     );
   }
 }

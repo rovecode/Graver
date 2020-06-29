@@ -44,41 +44,42 @@ class CreateFolderPage extends Component
   }
 
   function __construct() {
+    parent::__construct();
     $this->Think();
   }
 
   function BuildContent() : Element {
-    return (new Column)
-    ->SetChilds([
-      (new Text) 
-      ->SetText("Тестовый диалог создания папки в Graver!"),
-      (new Space),
+    return Column::Create()
+    ->Children([
+      Text::Create() 
+      ->Text("Тестовый диалог создания папки в Graver!"),
+      Space::Create(),
       (new TextField)
-      ->AddThemeKey("graver_field")
-      ->SetPlaceholder("Название папки")
-      ->SetText($this->Name)
-      ->SetActionKey("name"),
-      (new Space),
+      ->ThemeKeys("graver_field")
+      ->Placeholder("Название папки")
+      ->Text($this->Name)
+      ->ActionKey("name"),
+      Space::Create(),
       !empty($this->Message)
         ? (new ShakeErrorText)
-          ->SetText($this->Message)
+          ->Text($this->Message)
         : new Container,
     ]);
   }
 
-  function Build() : Node {
+  function Build() : Element {
     return (new Document)
-    ->AddThemes(GetAdaptiveThemes())
-    ->AddTheme(GetGraverTheme())
-    ->AddThemeParameter(BackgroundColor, Hex("e6e8ea"))
-    ->SetChild(
+    ->Themes(GetAdaptiveThemes())
+    ->Themes(GetGraverTheme())
+    ->ThemeParameter(BackgroundColor, Hex("e6e8ea"))
+    ->Child(
       (new Dialog)
-      ->SetTitle("Создать папку")
-      ->SetOkText("Создать")
-      ->SetCancelText("Отменить")
-      ->SetBackRedirect("ProjectPage.php?id=".$this->ProjectID."&folder_id=".$this->FolderID)
-      ->SetToRedirect("CreateFolderPage.php?project_id=".$this->ProjectID."&folder_id=".$this->FolderID)
-      ->SetChild($this->BuildContent())
+      ->Title("Создать папку")
+      ->OkText("Создать")
+      ->CancelText("Отменить")
+      ->BackRedirect("ProjectPage.php?id=".$this->ProjectID."&folder_id=".$this->FolderID)
+      ->ToRedirect("CreateFolderPage.php?project_id=".$this->ProjectID."&folder_id=".$this->FolderID)
+      ->Child($this->BuildContent())
     );
   }
 }

@@ -10,12 +10,13 @@ class AuthTeample extends Component
   private $Title;
 
   function __construct(string $title) {
+    parent::__construct();
     $this->Child = new Container;
     $this->Title = $title;
   }
 
   /// Child
-  function SetChild(Node $child) {
+  function Child(Node $child) {
     $this->Child = $child;
     return $this;
   }
@@ -26,45 +27,45 @@ class AuthTeample extends Component
 
   /// Build
   function BuildLeft() : Element {
-    return (new Column)
-    ->AddThemeKey("graver_left_auth_picture")
-    ->SetCrossAlign(CrossAxisAligns::Center)
-    ->SetMainAlign(MainAxisAligns::Center)
-    ->AddChild(
-      (new Text)
-      ->AddThemeKeys(["graver_left_auth_title", "graver_auth_title"])
-      ->SetText("graver")
+    return Column::Create()
+    ->ThemeKeys("graver_left_auth_picture")
+    ->CrossAlign(CrossAxisAligns::Center)
+    ->MainAlign(MainAxisAligns::Center)
+    ->Children(
+      Text::Create()
+      ->ThemeKeys(["graver_left_auth_title", "graver_auth_title"])
+      ->Text("graver")
     );
   }
 
   function BuildRight() : Element {
-    return (new VerticalScrollView)
-    ->AddThemeKey("graver_auth_form_background")
-    ->SetChild(
-      (new Column)
-      ->SetCrossAlign(CrossAxisAligns::Center)
-      ->SetMainAlign(MainAxisAligns::Center)
-      ->AddThemeParameter(Padding, [
+    return VerticalScrollView::Create()
+    ->ThemeKeys("graver_auth_form_background")
+    ->Child(
+      Column::Create()
+      ->CrossAlign(CrossAxisAligns::Center)
+      ->MainAlign(MainAxisAligns::Center)
+      ->ThemeParameter(Padding, [
         Px(50),
         Px(25)
       ])
-      ->AddChild(
-        (new Container)
-        ->AddThemeKey("on_show_translate")
-        ->AddThemeParameter(MaxWidth, Px(500))
-        ->AddThemeParameter(Height, Auto)
-        ->SetChild(
-          (new Column)
-          ->SetChilds([
-            (new Text)
-            ->AddThemeKeys([
+      ->Children(
+        Container::Create()
+        ->ThemeKeys("on_show_translate")
+        ->ThemeParameter(MaxWidth, Px(500))
+        ->ThemeParameter(Height, Auto)
+        ->Child(
+          Column::Create()
+          ->Children([
+            Text::Create()
+            ->ThemeKeys([
               "graver_auth_form_title", 
               "not_tablet", 
               "not_desktop"
             ])
-            ->SetText("graver"),
-            (new Space)
-            ->SetSpace(Px(25)),
+            ->Text("graver"),
+            Space::Create()
+            ->Spacing(Px(25)),
             $this->Child
           ])
         )
@@ -72,38 +73,28 @@ class AuthTeample extends Component
     );
   }
 
-  function Build() : Node {
+  function Build() : Element {
     return (new Document)
-    ->SetTitle($this->Title . ", graver.com")
-    ->AddTheme(GetGraverTheme())
-    ->AddThemes(GetAdaptiveThemes())
-    ->SetChild(
-      (new Stack)
-      ->AddThemeKey("graver_page_background")
-      ->SetChilds([
-        (new Picture)
-        ->SetLink(Url("https://www.muralswallpaper.com/app/uploads/Green-Tropical-Plant-Wallpaper-Mural-Room-820x532.jpg")) //
-        ->SetRepeat(PictureRepeats::NoRepeat)
-        ->SetSize(PictureSizes::Cover)
-        /*->SetChild(
-          (new Container)
-          //->AddThemeParameter(BackgroundColor, Hex("00000010"))
-          ->AddThemeParameter(BackdropFilter, Blur(Px(1)))
-        )*/,
-        (new Row)
-        ->SetChilds([
+    ->Title($this->Title . ", graver.com")
+    ->Themes(GetGraverTheme())
+    ->Themes(GetAdaptiveThemes())
+    ->Child(
+      Stack::Create()
+      ->ThemeKeys("graver_page_background")
+      ->Children([
+        Picture::Create()
+        ->Link(Url("https://www.muralswallpaper.com/app/uploads/Green-Tropical-Plant-Wallpaper-Mural-Room-820x532.jpg")) //
+        ->Repeat(PictureRepeats::NoRepeat)
+        ->Sizes(PictureSizes::Cover),
+        Row::Create()
+        ->Children([
           $this->BuildLeft()
-          ->AddThemeKey("not_mobile"),
-          (new Separator)->Build()
-          ->AddThemeParameter(BackgroundColor, Hex("ffffff33"))
-          ->AddThemeKey("not_mobile"),
-          (new Separator)->Build()
-          ->AddThemeKey("not_mobile"),
+          ->ThemeKeys("not_mobile"),
+          Separator::Create()
+          ->ThemeKeys("not_mobile"),
           $this->BuildRight()
         ])
       ])
     );
   }
 }
-
-//Node::Run((new AuthTeample)->Build());

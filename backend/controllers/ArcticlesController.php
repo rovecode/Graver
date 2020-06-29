@@ -50,6 +50,8 @@ class ArticlesController extends Controller
       "id",
       "title",
       "picture"
+    ], [
+      "ORDER" => ["id" => "DESC"]
     ]);
   }
 }

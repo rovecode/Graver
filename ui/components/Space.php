@@ -11,7 +11,7 @@ class Space extends Component
   private $Orientation = Space::Vertical;
 
   // Orientation
-  function SetOrientation(bool $orientation) {
+  function Orientation(bool $orientation) {
     $this->Orientation = $orientation;
     return $this;
   }
@@ -21,7 +21,7 @@ class Space extends Component
   }
 
   // Space
-  function SetSpace(string $string) {
+  function Spacing(string $string) {
     $this->Space = $string;
     return $this;
   }
@@ -30,17 +30,17 @@ class Space extends Component
     return $this->Space;
   }
 
-  function Build() : Node {
-    $cont = (new Container);
+  function Build() : Element {
+    $cont = Container::Create();
     if ($this->Orientation) {
-      $cont->AddThemeParameter(Width, $this->Space);
-      $cont->AddThemeParameter(MaxWidth, $this->Space);
-      $cont->AddThemeParameter(MinWidth, $this->Space);
+      $cont->ThemeParameter(Width, $this->Space);
+      $cont->ThemeParameter(MaxWidth, $this->Space);
+      $cont->ThemeParameter(MinWidth, $this->Space);
     }
     else {
-      $cont->AddThemeParameter(Height, $this->Space);
-      $cont->AddThemeParameter(MaxHeight, $this->Space);
-      $cont->AddThemeParameter(MinHeight, $this->Space);
+      $cont->ThemeParameter(Height, $this->Space);
+      $cont->ThemeParameter(MaxHeight, $this->Space);
+      $cont->ThemeParameter(MinHeight, $this->Space);
     }
     return $cont;
   }

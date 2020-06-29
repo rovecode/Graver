@@ -38,47 +38,48 @@ class CreateProjectPage extends Component
   }
 
   function __construct() {
+    parent::__construct();
     $this->Think();
   }
 
   function BuildContent() : Element {
-    return (new Column)
-    ->SetChilds([
-      (new Text)
-      ->SetText("Тестовый диалог создания проекта в Graver!"),
-      (new Space),
+    return Column::Create()
+    ->Children([
+      Text::Create()
+      ->Text("Тестовый диалог создания проекта в Graver!"),
+      Space::Create(),
       (new TextField)
-      ->AddThemeKey("graver_field")
-      ->SetPlaceholder("Название проекта")
-      ->SetText($this->Name)
-      ->SetActionKey("name"),
-      (new Space),
+      ->ThemeKeys("graver_field")
+      ->Placeholder("Название проекта")
+      ->Text($this->Name)
+      ->ActionKey("name"),
+      Space::Create(),
       (new TextField)
-      ->AddThemeKey("graver_field")
-      ->SetPlaceholder("Ссылка на изображение")
-      ->SetText($this->Picture)
-      ->SetActionKey("link"),
-      (new Space),
+      ->ThemeKeys("graver_field")
+      ->Placeholder("Ссылка на изображение")
+      ->Text($this->Picture)
+      ->ActionKey("link"),
+      Space::Create(),
       !empty($this->Message)
         ? (new ShakeErrorText)
-          ->SetText($this->Message)
+          ->Text($this->Message)
         : new Container,
     ]);
   }
 
-  function Build() : Node {
+  function Build() : Element {
     return (new Document)
-    ->AddThemes(GetAdaptiveThemes())
-    ->AddTheme(GetGraverTheme())
-    ->AddThemeParameter(BackgroundColor, Hex("e6e8ea"))
-    ->SetChild(
+    ->Themes(GetAdaptiveThemes())
+    ->Themes(GetGraverTheme())
+    ->ThemeParameter(BackgroundColor, Hex("e6e8ea"))
+    ->Child(
       (new Dialog)
-      ->SetTitle("Создать проект")
-      ->SetOkText("Создать")
-      ->SetCancelText("Отменить")
-      ->SetBackRedirect("HomePage.php")
-      ->SetToRedirect("CreateProjectPage.php")
-      ->SetChild($this->BuildContent())
+      ->Title("Создать проект")
+      ->OkText("Создать")
+      ->CancelText("Отменить")
+      ->BackRedirect("HomePage.php")
+      ->ToRedirect("CreateProjectPage.php")
+      ->Child($this->BuildContent())
     );
   }
 }

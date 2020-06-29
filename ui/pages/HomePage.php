@@ -18,96 +18,97 @@ class HomePage extends Component
     
     $this->Projects  = ProjectsController::GetInstance()->GetProjects($_COOKIE["session_key"]);
 
-    $this->Articles = array_reverse(ArticlesController::GetInstance()->GetArticles());
+    $this->Articles = ArticlesController::GetInstance()->GetArticles();
   }
 
   function __construct() {
+    parent::__construct();
     $this->Think();
   }
 
   function BuildTopText(string $title, string $text) : Column {
-    return (new Column)
-    ->SetChilds([
-      (new Text)
-      ->AddThemeParameter(FontSize, Px(22))
-      ->SetText($title),
-      (new Space),
-      (new Text)
-      ->AddThemeParameter(FontSize, Px(15))
-      ->SetText($text)
+    return Column::Create()
+    ->Children([
+      Text::Create()
+      ->ThemeParameter(FontSize, Px(22))
+      ->Text($title),
+      Space::Create(),
+      Text::Create()
+      ->ThemeParameter(FontSize, Px(15))
+      ->Text($text)
     ]);
   }
 
   function BuildTopContainer(string $title, string $text) : Element {
-    return (new Container)
-    ->AddThemeParameter(Padding, [Px(60), Px(40), 0, Px(40)])
-    ->AddThemeParameter(Height, Auto)
-    ->AddThemeParameter(BackgroundColor, Hex("e6e8ea96"))
-    ->AddThemeParameter(BackdropFilter, Blur(Px(30)))
-    ->AddThemeParameter(WebKit(BackdropFilter), Blur(Px(30)))
-    ->SetChild(
+    return Container::Create()
+    ->ThemeParameter(Padding, [Px(60), Px(40), 0, Px(40)])
+    ->ThemeParameter(Height, Auto)
+    ->ThemeParameter(BackgroundColor, Hex("e6e8ea96"))
+    ->ThemeParameter(BackdropFilter, Blur(Px(30)))
+    ->ThemeParameter(WebKit(BackdropFilter), Blur(Px(30)))
+    ->Child(
       $this->BuildTopText($title, $text)
-      ->AddChilds([
-        (new Space)
-        ->SetSpace(Px(35)),
-        (new Separator)
-        ->SetOrientation(Separator::Vertical)
+      ->Children([
+        Space::Create()
+        ->Spacing(Px(35)),
+        Separator::Create()
+        ->Orientation(Separator::Vertical)
       ])
     );
   }
 
   function BuildTopContainerMobile(string $title, string $text) : Element {
-    return (new Container)
-    ->AddThemeParameter(Padding, [0, Px(40)])
-    ->AddThemeParameter(Height, Auto)
-    ->AddThemeParameter(BackgroundColor, Hex("e6e8ea96"))
-    ->AddThemeParameter(BackdropFilter, Blur(Px(30)))
-    ->AddThemeParameter(WebKit(BackdropFilter), Blur(Px(30)))
-    ->SetChild(
-      (new Column)
-      ->SetChilds([
-        (new Separator)
-        ->SetOrientation(Separator::Vertical),
-        (new Space)
-        ->SetSpace(Px(60)),
+    return Container::Create()
+    ->ThemeParameter(Padding, [0, Px(40)])
+    ->ThemeParameter(Height, Auto)
+    ->ThemeParameter(BackgroundColor, Hex("e6e8ea96"))
+    ->ThemeParameter(BackdropFilter, Blur(Px(30)))
+    ->ThemeParameter(WebKit(BackdropFilter), Blur(Px(30)))
+    ->Child(
+      Column::Create()
+      ->Children([
+        Separator::Create()
+        ->Orientation(Separator::Vertical),
+        Space::Create()
+        ->Spacing(Px(60)),
         $this->BuildTopText($title, $text),
-        (new Space)
-        ->SetSpace(Px(30)),
-        (new Separator)
-        ->SetOrientation(Separator::Vertical)
+        Space::Create()
+        ->Spacing(Px(30)),
+        Separator::Create()
+        ->Orientation(Separator::Vertical)
       ])
     );
   }
 
   function BuildProjectsMobile() : Element {
-    return (new Stack)
-    ->AddThemeParameter(MinHeight, Pr(100.1))
-    ->SetChilds([
-      (new VerticalScrollView)
-      ->AddThemeKey("graver_hide_scrollbar")
-      ->AddThemeParameter(Padding, [Px(190), Px(40), 0, Px(40)])
-      ->SetChild(
+    return Stack::Create()
+    ->ThemeParameter(MinHeight, Pr(100.1))
+    ->Children([
+      VerticalScrollView::Create()
+      ->ThemeKeys("graver_hide_scrollbar")
+      ->ThemeParameter(Padding, [Px(190), Px(40), 0, Px(40)])
+      ->Child(
         (new Builder)
-        ->SetFunction(function ($args) {
+        ->Function(function ($args) {
           $queue = (new Grid)
-          ->AddThemeParameter(Height, Auto)
-          ->AddThemeParameter(JustifyContent, Center)
-          ->SetSpacing(Px(20))
-          ->SetColumnTeample(Repeat("auto-fill", Minmax(Px(120), Px(120))));
+          ->ThemeParameter(Height, Auto)
+          ->ThemeParameter(JustifyContent, Center)
+          ->Spacing(Px(20))
+          ->ColumnTeample(Repeat("auto-fill", Minmax(Px(120), Px(120))));
           $i = 0;
           foreach ($this->Projects as $value) {
-            $queue->AddChild(
+            $queue->Children(
               (new ProjectCard)
-              ->SetTitle($value["title"])
-              ->SetPictureLink(Url($value["picture"]))
-              ->SetRedirectLink("ProjectPage.php?id=" . $value["id"])
-              ->SetSize(Px(120))
+              ->Title($value["title"])
+              ->PictureLink(Url($value["picture"]))
+              ->RedirectLink("ProjectPage.php?id=" . $value["id"])
+              ->Size(Px(120))
             );
             ++$i;
           }
-          $queue->AddChild(
+          $queue->Children(
             (new CreateProjectCard)
-            ->SetRedirectLink("CreateProjectPage.php")
+            ->RedirectLink("CreateProjectPage.php")
           );
           return $queue;
         })
@@ -120,54 +121,53 @@ class HomePage extends Component
   }
 
   function BuildArticlesMobile() : Element {
-    return (new Column)
-    ->AddThemeParameter(Height, Auto)
-    ->SetChilds([
+    return Column::Create()
+    ->ThemeParameter(Height, Auto)
+    ->Children([
       $this->BuildTopText(
         "Статьи",
         "Прочитайте статьи которые помогут вам оптимизировать Ваш день"
       )
-      ->AddThemeParameter(Padding, [Px(60), Px(40), 0, Px(40)]),
-      (new Column)
-      ->AddChilds([
-        (new HorizontalScrollView)
-        ->AddThemeParameter(PaddingBottom, [Px(60)])
-        ->AddThemeParameter(PaddingTop, [Px(45)])
-        //->AddThemeKey("graver_hide_scrollbar")
-        ->SetChild(
+      ->ThemeParameter(Padding, [Px(60), Px(40), 0, Px(40)]),
+      Column::Create()
+      ->Children([
+        HorizontalScrollView::Create()
+        ->ThemeParameter(PaddingBottom, [Px(60)])
+        ->ThemeParameter(PaddingTop, [Px(45)])
+        //->ThemeKeys("graver_hide_scrollbar")
+        ->Child(
           (new Builder)
-          ->SetFunction(function ($args) {
-            $queue = (new Row);
+          ->Function(function ($args) {
+            $queue = Row::Create();
             $i = 0;
-            $queue->AddChild(
-              (new Space)
-              ->SetSpace(Px(40))
-              ->SetOrientation(Space::Horizontal)
+            $queue->Children(
+              Space::Create()
+              ->Spacing(Px(40))
+              ->Orientation(Space::Horizontal)
             );
             foreach ($this->Articles as $value) {
-              $queue->AddChilds([
+              $queue->Children([
                 (new ArticleCard)
-                ->SetImageHeight(Px(150))
-                ->SetTitle($value["title"])
-                ->SetPictureLink(Url($value["picture"]))
-                ->SetRedirectLink("ArticlePage.php?text_id=".$value["id"]."&title=".$value["title"]."&picture=".$value["picture"])
-                ->Build()
-                ->AddThemeParameter(Width, [Px(350)])
-                ->AddThemeParameter(MaxWidth, [Px(350)])
-                ->AddThemeParameter(MinWidth, [Px(350)])
-                ->AddThemeKey($i < 5 ? "on_show_x_large_translate" : "nonefd")
-                ->AddThemeParameter(AnimationDelay, (0.15 * $i)."s")
-                ->AddThemeParameter(AnimationDuration, "0.15s"),
-                (new Space)
-                ->SetOrientation(Space::Horizontal)
-                ->SetSpace(Px(15))
+                ->ImageHeight(Px(150))
+                ->Title($value["title"])
+                ->PictureLink(Url($value["picture"]))
+                ->RedirectLink("ArticlePage.php?text_id=".$value["id"]."&title=".$value["title"]."&picture=".$value["picture"])
+                ->ThemeParameter(Width, [Px(350)])
+                ->ThemeParameter(MaxWidth, [Px(350)])
+                ->ThemeParameter(MinWidth, [Px(350)])
+                ->ThemeKeys($i < 5 ? "on_show_x_large_translate" : "nonefd")
+                ->ThemeParameter(AnimationDelay, (0.15 * $i)."s")
+                ->ThemeParameter(AnimationDuration, "0.15s"),
+                Space::Create()
+                ->Orientation(Space::Horizontal)
+                ->Spacing(Px(15))
               ]);
               ++$i;
             }
-            $queue->AddChild(
-              (new Space)
-              ->SetSpace(Px(25))
-              ->SetOrientation(Space::Horizontal)
+            $queue->Children(
+              Space::Create()
+              ->Spacing(Px(25))
+              ->Orientation(Space::Horizontal)
             );
             return $queue;
           })
@@ -177,51 +177,50 @@ class HomePage extends Component
   }
 
   function BuildMobile() : Element {
-    return (new VerticalScrollView)
-    ->SetChild(
-      (new Column)
-      ->SetChilds([
+    return VerticalScrollView::Create()
+    ->Child(
+      Column::Create()
+      ->Children([
         $this->BuildArticlesMobile(),
         $this->BuildProjectsMobile()
-        ->SetID("projects")
+        ->ID("projects")
       ])
     );
   }
 
   function BuildProjectsDesktop() : Element {
-    return (new Stack)
-    ->SetChilds([
-      (new VerticalScrollView)
-      ->AddThemeKey("graver_hide_scrollbar")
-      ->AddThemeParameter(Padding, [Px(190), Px(41), 0, Px(41)])
-      ->SetChild(
+    return Stack::Create()
+    ->Children([
+      VerticalScrollView::Create()
+      ->ThemeKeys("graver_hide_scrollbar")
+      ->ThemeParameter(Padding, [Px(190), Px(41), 0, Px(41)])
+      ->Child(
         (new Builder)
-        ->SetFunction(function ($args) {
+        ->Function(function ($args) {
           $queue = (new Grid)
-          ->AddThemeParameter(Height, Auto)
-          ->AddThemeParameter(JustifyContent, Center)
-          ->SetSpacing(Px(20))
-          ->SetColumnTeample(Repeat("auto-fill", Minmax(Px(13), Px(135))))
-          ->AddThemeParameter(PaddingBottom, Px(20));
+          ->ThemeParameter(Height, Auto)
+          ->ThemeParameter(JustifyContent, Center)
+          ->Spacing(Px(20))
+          ->ColumnTeample(Repeat("auto-fill", Minmax(Px(13), Px(135))))
+          ->ThemeParameter(PaddingBottom, Px(20));
           $i = 0;
           $anim_speed = 1;
           foreach ($this->Projects as $value) {
             $anim_delta = (0.1 * ($i * $anim_speed));
-            $queue->AddChild(
+            $queue->Children(
               (new ProjectCard)
-              ->SetTitle($value["title"])
-              ->SetPictureLink(Url($value["picture"]))
-              ->SetRedirectLink("ProjectPage.php?id=" . $value["id"])
-              ->Build()
-              ->AddThemeKey("on_show_x_translate")
-              ->AddThemeParameter(AnimationDelay, $anim_delta > 0 ? $anim_delta."s" : "0s")
+              ->Title($value["title"])
+              ->PictureLink(Url($value["picture"]))
+              ->RedirectLink("ProjectPage.php?id=" . $value["id"])
+              ->ThemeKeys("on_show_x_translate")
+              ->ThemeParameter(AnimationDelay, $anim_delta > 0 ? $anim_delta."s" : "0s")
             );
             $anim_speed -= 0.015;
             ++$i;
           }
-          $queue->AddChild(
+          $queue->Children(
             (new CreateProjectCard)
-            ->SetRedirectLink("CreateProjectPage.php")
+            ->RedirectLink("CreateProjectPage.php")
           );
           return $queue;
         })
@@ -234,27 +233,26 @@ class HomePage extends Component
   }
 
   function BuildArticlesDesktop() : Element {
-    return (new Stack)
-    ->SetChilds([
-      (new VerticalScrollView)
-      ->AddThemeKey("graver_hide_scrollbar")
-      ->AddThemeParameter(Padding, [Px(190), Px(50), 0, Px(50)])
-      ->SetChild(
+    return Stack::Create()
+    ->Children([
+      VerticalScrollView::Create()
+      ->ThemeKeys("graver_hide_scrollbar")
+      ->ThemeParameter(Padding, [Px(190), Px(50), 0, Px(50)])
+      ->Child(
         (new Builder)
-        ->SetFunction(function ($args) {
-          $queue = (new Column);
+        ->Function(function ($args) {
+          $queue = Column::Create();
           $i = 0;
           foreach ($this->Articles as $value) {
-            $queue->AddChilds([
+            $queue->Children([
               (new ArticleCard)
-              ->SetTitle($value["title"])
-              ->SetPictureLink(Url($value["picture"]))
-              ->SetRedirectLink("ArticlePage.php?text_id=".$value["id"]."&title=".$value["title"]."&picture=".$value["picture"])
-              ->Build()
-              ->AddThemeKey("on_show_x_large_translate")
-              ->AddThemeParameter(AnimationDelay, (0.2 * $i + 0.4)."s")
-              ->AddThemeParameter(AnimationDuration, "0.2s"),
-              (new Space)
+              ->Title($value["title"])
+              ->PictureLink(Url($value["picture"]))
+              ->RedirectLink("ArticlePage.php?text_id=".$value["id"]."&title=".$value["title"]."&picture=".$value["picture"])
+              ->ThemeKeys("on_show_x_large_translate")
+              ->ThemeParameter(AnimationDelay, (0.2 * $i + 0.4)."s")
+              ->ThemeParameter(AnimationDuration, "0.2s"),
+              Space::Create()
             ]);
             ++$i;
           }
@@ -269,29 +267,29 @@ class HomePage extends Component
   }
 
   function BuildDesktop() : Element {
-    return (new Row)
-    ->SetChilds([
+    return Row::Create()
+    ->Children([
       $this->BuildProjectsDesktop(),
-      (new Separator)
-      ->SetOrientation(Separator::Horizontal),
+      Separator::Create()
+      ->Orientation(Separator::Horizontal),
       $this->BuildArticlesDesktop()
     ]);
   }
 
-  function Build() : Node {
+  function Build() : Element {
     return (new Document)
-    ->AddTheme(GetGraverTheme())
-    ->AddThemes(GetAdaptiveThemes())
-    ->AddTheme(GetFontsTheme())
-    ->AddThemeParameter(BackgroundColor, Hex("e6e8ea"))
-    ->SetTitle("Главная, graver.com")
-    ->SetChild(
+    ->Themes(GetGraverTheme())
+    ->Themes(GetAdaptiveThemes())
+    ->Themes(GetFontsTheme())
+    ->ThemeParameter(BackgroundColor, Hex("e6e8ea"))
+    ->Title("Главная, graver.com")
+    ->Child(
       (new Queue)
-      ->SetChilds([
+      ->Children([
         $this->BuildDesktop()
-        ->AddThemeKeys(["not_mobile"]),
+        ->ThemeKeys(["not_mobile"]),
         $this->BuildMobile()
-        ->AddThemeKeys(["not_desktop", "not_tablet"])
+        ->ThemeKeys(["not_desktop", "not_tablet"])
       ])
     );
   }

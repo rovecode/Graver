@@ -50,62 +50,63 @@ class CreateProjectPage extends Component
   }
 
   function __construct() {
+    parent::__construct();
     $this->Think();
   }
 
   function BuildContent() : Element {
-    return (new Column)
-    ->SetChilds([
-      (new Text)
-      ->SetText("Тестовый диалог создания статьи в Graver!"),
-      (new Space),
+    return Column::Create()
+    ->Children([
+      Text::Create()
+      ->Text("Тестовый диалог создания статьи в Graver!"),
+      Space::Create(),
       (new TextField)
-      ->AddThemeKey("graver_field")
-      ->SetPlaceholder("Название статьи")
-      ->SetText($this->Title)
-      ->SetActionKey("title"),
-      (new Space),
+      ->ThemeKeys("graver_field")
+      ->Placeholder("Название статьи")
+      ->Text($this->Title)
+      ->ActionKey("title"),
+      Space::Create(),
       (new TextField)
-      ->AddThemeKey("graver_field")
-      ->SetPlaceholder("Ссылка на изображение")
-      ->SetText($this->Picture)
-      ->SetActionKey("picture"),
-      (new Space),
+      ->ThemeKeys("graver_field")
+      ->Placeholder("Ссылка на изображение")
+      ->Text($this->Picture)
+      ->ActionKey("picture"),
+      Space::Create(),
       (new TextBox)
-      ->AddThemeParameter(MaxWidth, Pr(100))
-      ->AddThemeParameter(MinWidth, Pr(100))
-      ->AddThemeParameter(MaxHeight, Px(300))
-      ->AddThemeKey("graver_field")
-      ->SetPlaceholder("Текст")
-      ->SetText($this->Text)
-      ->SetActionKey("text"),
-      (new Space),
+      ->ThemeParameter(MaxWidth, Pr(100))
+      ->ThemeParameter(MinWidth, Pr(100))
+      ->ThemeParameter(MaxHeight, Px(300))
+      ->ThemeKeys("graver_field")
+      ->Placeholder("Текст")
+      ->Text($this->Text)
+      ->ActionKey("text"),
+      Space::Create(),
       (new TextField)
-      ->AddThemeKey("graver_field")
-      ->SetPlaceholder("Код")
-      ->SetText($this->Code)
-      ->SetActionKey("code"),
-      (new Space),
+      ->ThemeKeys("graver_field")
+      ->Placeholder("Код")
+      ->Text($this->Code)
+      ->ActionKey("code"),
+      Space::Create(),
       !empty($this->Message)
         ? (new ShakeErrorText)
-          ->SetText($this->Message)
+          ->Text($this->Message)
         : new Container,
     ]);
   }
 
-  function Build() : Node {
+  function Build() : Element {
     return (new Document)
-    ->AddThemes(GetAdaptiveThemes())
-    ->AddTheme(GetGraverTheme())
-    ->AddThemeParameter(BackgroundColor, Hex("e6e8ea"))
-    ->SetChild(
+    ->Themes(GetAdaptiveThemes())
+    ->Themes(GetGraverTheme())
+    ->ThemeParameter(BackgroundColor, Hex("e6e8ea"))
+    ->Child(
       (new Dialog)
-      ->SetTitle("Создать статью")
-      ->SetOkText("Создать")
-      ->SetCancelText("Отменить")
-      ->SetBackRedirect("HomePage.php")
-      ->SetToRedirect("CreateArticlePage.php")
-      ->SetChild($this->BuildContent())
+      ->Title("Создать статью")
+      ->OkText("Создать")
+      ->CancelText("Отменить")
+      ->BackRedirect("HomePage.php")
+      ->ToRedirect("CreateArticlePage.php")
+      ->Child($this->BuildContent())
     );
   }
 }
