@@ -60,15 +60,12 @@ class ProjectsController extends Controller
     ]);
   }
 
-  function GetProjects(string $key) {
+  function GetProjects(string $key) : array {
     if (!SessionController::GetInstance()->ExistsByKey($key))
       return array();
 
-    $id = SessionController::GetInstance()->GetProfileIDByKey($key);
-
-    return $this->GetDB()->select("projects", "*", [
-      "profile_id" => $id
-    ]);
+    return $this->GetDB()->query("SELECT * FROM <projects> WHERE (<profile_id> = (SELECT <profile_id> FROM <sessions> WHERE <key> = '$key'))")
+      ->fetchAll();
   }
 
   function DeleteProject($id) {
@@ -80,6 +77,8 @@ class ProjectsController extends Controller
   function GetProject(string $key, $id) {
     if (!SessionController::GetInstance()->ExistsByKey($key))
       return array();
+    
+    $uno = 1;
 
     $profileId = SessionController::GetInstance()->GetProfileIDByKey($key);
 

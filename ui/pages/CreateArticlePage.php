@@ -8,21 +8,17 @@ require_once(__DIR__ . "/../../backend/include.php");
 
 class CreateProjectPage extends Component
 {
-  private $Title = "";
-  private $Picture = "";
-  private $Text = "";
-  private $Code = "";
+  private $Title;
+  private $Picture;
+  private $Text;
+  private $Code;
   private $Message = "";
 
   function Think() {
-    if (isset($_POST["title"]))
-      $this->Title = $_POST["title"];
-    if (isset($_POST["picture"]))
-      $this->Picture = $_POST["picture"];
-    if (isset($_POST["text"]))
-      $this->Text = $_POST["text"];
-    if (isset($_POST["code"]))
-      $this->Code = $_POST["code"];
+    $this->Title = Action::GetValue("title", "", ActionTypes::Post);
+    $this->Picture = Action::GetValue("picture", "", ActionTypes::Post);
+    $this->Text = Action::GetValue("text", "", ActionTypes::Post);
+    $this->Code = Action::GetValue("code", "", ActionTypes::Post);
 
     if (empty($this->Title) || empty($this->Picture)
         || empty($this->Text) || empty($this->Code))

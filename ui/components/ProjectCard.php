@@ -9,6 +9,12 @@ class ProjectCard extends Component
   private $PictureLink;
   private $RedirectLink;
   private $Title;
+  private $Delay = 0.2;
+
+  function Delay($delay) {
+    $this->Delay = $delay;
+    return $this;
+  }
   
   /// Title
   function Title(string $string) {
@@ -49,14 +55,14 @@ class ProjectCard extends Component
       ->Children(
         Text::Create()
         ->ThemeKeys("on_show_x_translate")
-        ->ThemeParameter(AnimationDelay, "0.2s")
+        ->ThemeParameter(AnimationDelay, $this->Delay."s")
         ->ThemeParameter(FontSize, Px(32))
         ->Text(mb_substr($this->Title, 0, 1))
       )
       ->Children(
         Text::Create()
         ->ThemeKeys("on_show_x_translate")
-        ->ThemeParameter(AnimationDelay, "0.4s")
+        ->ThemeParameter(AnimationDelay, ($this->Delay + 0.2)."s")
         ->ThemeParameter(FontWeight, 300)
         ->Text($this->Title)
       )

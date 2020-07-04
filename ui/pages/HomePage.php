@@ -152,12 +152,13 @@ class HomePage extends Component
                 ->Title($value["title"])
                 ->PictureLink(Url($value["picture"]))
                 ->RedirectLink("ArticlePage.php?text_id=".$value["id"]."&title=".$value["title"]."&picture=".$value["picture"])
-                ->ThemeParameter(Width, [Px(350)])
-                ->ThemeParameter(MaxWidth, [Px(350)])
-                ->ThemeParameter(MinWidth, [Px(350)])
-                ->ThemeKeys($i < 5 ? "on_show_x_large_translate" : "nonefd")
-                ->ThemeParameter(AnimationDelay, (0.15 * $i)."s")
-                ->ThemeParameter(AnimationDuration, "0.15s"),
+                ->Build()
+                  ->ThemeParameter(Width, Px(350))
+                  ->ThemeParameter(MaxWidth, Px(350))
+                  ->ThemeParameter(MinWidth, Px(350))
+                  ->ThemeKeys($i < 5 ? "on_show_x_large_translate" : "nonefd")
+                  ->ThemeParameter(AnimationDelay, (0.15 * $i)."s")
+                  ->ThemeParameter(AnimationDuration, "0.15s"),
                 Space::Create()
                 ->Orientation(Space::Horizontal)
                 ->Spacing(Px(15))
@@ -204,18 +205,28 @@ class HomePage extends Component
           ->ColumnTeample(Repeat("auto-fill", Minmax(Px(13), Px(135))))
           ->ThemeParameter(PaddingBottom, Px(20));
           $i = 0;
-          $anim_speed = 1;
+          $digma = rand(0, 100) / 100;
+          $anim_speed = 3;
           foreach ($this->Projects as $value) {
+            $shim = rand(0, 1) * 3;
             $anim_delta = (0.1 * ($i * $anim_speed));
+            $anim_delta /= 4;
+            if ($anim_delta > 1.5)
+              $anim_delta = rand(0, 1.5);
             $queue->Children(
               (new ProjectCard)
               ->Title($value["title"])
               ->PictureLink(Url($value["picture"]))
               ->RedirectLink("ProjectPage.php?id=" . $value["id"])
-              ->ThemeKeys("on_show_x_translate")
-              ->ThemeParameter(AnimationDelay, $anim_delta > 0 ? $anim_delta."s" : "0s")
+              ->Delay($anim_delta)
+              ->Build()
+              ->ThemeKeys("on_show_x_large_translate")
+              ->ThemeParameter(AnimationDelay, $anim_delta."s")
             );
-            $anim_speed -= 0.015;
+            $anim_speed -= abs((((sin($anim_delta) - cos($anim_delta) / $digma) - $digma) / 15) * $shim);
+            if ($anim_speed < 0)
+              $anim_speed = -$anim_speed;
+            //echo $anim_speed."</br>";
             ++$i;
           }
           $queue->Children(
@@ -249,9 +260,10 @@ class HomePage extends Component
               ->Title($value["title"])
               ->PictureLink(Url($value["picture"]))
               ->RedirectLink("ArticlePage.php?text_id=".$value["id"]."&title=".$value["title"]."&picture=".$value["picture"])
-              ->ThemeKeys("on_show_x_large_translate")
-              ->ThemeParameter(AnimationDelay, (0.2 * $i + 0.4)."s")
-              ->ThemeParameter(AnimationDuration, "0.2s"),
+              ->Build()
+              ->ThemeKeys("on_show_x_translate")
+              ->ThemeParameter(AnimationDelay, (0.1 * $i + 0.4)."s")
+              ->ThemeParameter(AnimationDuration, "0.4s"),
               Space::Create()
             ]);
             ++$i;

@@ -48,9 +48,7 @@ class FolderController extends Controller
   }
 
   function GetFolder($id) {
-    return $this->GetDB()->select("folders", "*", [
-      "id" => $id
-    ])[0];
+    return $this->GetDB()->query("CALL folders_get($id)")->fetchAll()[0];
   }
 
   function AddFolder($projectID, string $name) {

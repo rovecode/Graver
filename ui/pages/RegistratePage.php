@@ -150,7 +150,7 @@ class RegistratePage extends Component
     );
   }
 
-  function Build() : Node {
+  function Build() : Element {
     return (new AuthTeample("Присоеденитесь"))
     ->Child($this->BuildForm());
   }

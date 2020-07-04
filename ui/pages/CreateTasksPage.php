@@ -41,7 +41,10 @@ class CreateTasksPage extends Component
       $this->Name
     );
 
-    Controller::RedirectTo("ProjectPage.php?id=".$this->ProjectID."&folder_id=".$this->FolderID);
+    if (!Action::GetValue("all") == "true")
+      Controller::RedirectTo("ProjectPage.php?id=".$this->ProjectID."&folder_id=".$this->FolderID);
+    else
+      Controller::RedirectTo("ProjectPage.php?is_all=true&id=".$this->ProjectID);
   }
 
   function __construct() {
@@ -79,7 +82,7 @@ class CreateTasksPage extends Component
       ->OkText("Создать")
       ->CancelText("Отменить")
       ->BackRedirect("ProjectPage.php?id=".$this->ProjectID."&folder_id=".$this->FolderID)
-      ->ToRedirect("CreateTasksPage.php?project_id=".$this->ProjectID."&folder_id=".$this->FolderID)
+      ->ToRedirect("CreateTasksPage.php?project_id=".$this->ProjectID."&folder_id=".$this->FolderID."&all=".Action::GetValue("all", ""))
       ->Child($this->BuildContent())
     );
   }

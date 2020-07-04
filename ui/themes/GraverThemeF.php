@@ -119,9 +119,9 @@ function GetGraverTheme() : Theme {
     ->Modifiers(
       StandartModifier::Create()
       ->Parameter(BorderRadius, Px(2))
-      ->Parameter(BackdropFilter, Blur(Px(4)))
+      ->Parameter(BackdropFilter, Blur(Px(1)))
       ->Parameter(BackgroundColor, Hex("ffffff30"))
-      ->Parameter(Webkit(BackdropFilter), Blur(Px(4)))
+      ->Parameter(Webkit(BackdropFilter), Blur(Px(1)))
     ),
     ThemeBlock::Create()
     ->Keys("graver_project_card > div > div")

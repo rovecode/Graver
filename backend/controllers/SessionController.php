@@ -84,7 +84,7 @@ class SessionController extends Controller
       'profile_id' => $id,
       'key' => $key
     ])) {
-      setcookie("session_key", $key);
+      setcookie("session_key", $key, time()+60*60*24*30, "/", "", false, true);
       return SessionCreateEnum::Ok;
     }
     else

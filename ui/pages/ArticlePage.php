@@ -141,6 +141,8 @@ class ArticlePage extends Component
       ->ThemeKeys("graver_page_background")
       ->Children([
         Picture::Create()
+        ->ThemeParameter(Filter, Blur(Px(0.5)))
+        ->ThemeParameter(WebKit(Filter), Blur(Px(0.2)))
         ->Link(Url($this->Picture))
         ->Repeat(PictureRepeats::NoRepeat)
         ->Sizes(PictureSizes::Cover),

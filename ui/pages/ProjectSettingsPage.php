@@ -11,6 +11,7 @@ class ProjecttingsPage extends Component
   private $ProjectID = -1;
   private $Fodlers;
   private $Message = "";
+  private $ProjectName;
 
   function Think() {
     if (isset($_GET["project_id"]))
@@ -22,13 +23,19 @@ class ProjecttingsPage extends Component
       Controller::RedirectTo("HomePage.php");
       return;
     }
+    $project = ProjectsController::GetInstance()->GetProject($_COOKIE["session_key"], $this->ProjectID);
+    $this->ProjectName = Action::GetValue("rename_field", $project["title"], ActionTypes::Post);
 
     if (isset($_GET["delete_folder"]) && $_GET["delete_folder"] == "true") {
       $this->DeleteFolder($_GET["folder_delete_id"]);
       Controller::RedirectTo("ProjectSettingsPage.php?project_id=".$this->ProjectID);
     }
-
-    if (isset($_GET["delete_project"]) && $_GET["delete_project"] == "true") {
+    else if ($project["title"] != $this->ProjectName) {
+      ProjectsController::GetInstance()->GetDB()->query(
+        "UPDATE projects SET title = '".$this->ProjectName."' WHERE id = ".$this->ProjectID
+      );
+    }
+    else if (isset($_GET["delete_project"]) && $_GET["delete_project"] == "true") {
       $this->DeleteProject($this->ProjectID);
       Controller::RedirectTo("HomePage.php");
     }
@@ -90,12 +97,37 @@ class ProjecttingsPage extends Component
       Space::Create(),
       Text::Create() 
       ->ThemeParameter(FontWeight, 500)
+      ->Text("Имя проекта"),
+      Space::Create(),
+      TextField::Create()
+      ->ThemeKeys("graver_field")
+      ->ActionKey("rename_field")
+      ->Placeholder("Имя проекта")
+      ->Text($this->ProjectName),
+      Space::Create()
+      ->Orientation(Space::Horizontal),
+      // Button::Create()
+      // ->ThemeParameter(Width, Px(40))
+      // ->ThemeParameter(Height, Px(40))
+      // ->ThemeParameter(MinWidth, Px(40))
+      // ->ThemeParameter(MinHeight, Px(40))
+      // ->ThemeParameter(Padding, [Px(7), 0])
+      // ->ThemeKeys("graver_button")
+      // ->ThemeKeys("material_icons")
+      // ->Text(Icons::BlurOn)
+      Space::Create(),
+      Text::Create() 
+      ->ThemeParameter(FontWeight, 500)
       ->Text("Папки"),
       Space::Create(),
       VerticalScrollView::Create()
       ->ThemeParameter(MaxHeight, Px(200))
       ->Child($column),
       Space::Create(),
+      Link::Create()
+      ->Link("ProjectSettingsPage.php?delete_project=true&project_id=".$this->ProjectID."&folder_id=".$this->FolderID)
+      ->ThemeParameter(Color, Red)
+      ->Child("Удалить проект"),
       !empty($this->Message)
         ? (new ShakeErrorText)
           ->Text($this->Message)
@@ -112,10 +144,10 @@ class ProjecttingsPage extends Component
     ->Child(
       (new Dialog)
       ->Title("Настроить проект")
-      ->OkText("Удалить проект")
+      ->OkText("Изменить имя проекта")
       ->CancelText("Назад к проекту")
       ->BackRedirect("ProjectPage.php?id=".$this->ProjectID)
-      ->ToRedirect("ProjectSettingsPage.php?delete_project=true&project_id=".$this->ProjectID)
+      ->ToRedirect("#")
       ->Child($this->BuildContent())
     );
   }
